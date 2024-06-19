@@ -27,4 +27,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
 });
 
-Route::get('/', [ItemController::class, 'index'])->name('home');
+Route::controller(ItemController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/item/{id}', 'show')->name('item.show');
+});
