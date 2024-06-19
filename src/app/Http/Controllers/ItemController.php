@@ -21,4 +21,10 @@ class ItemController extends Controller
         return view('show', ['item' => $item]);
     }
 
+    public function purchase($id)
+    {
+        $item = Item::findOrFail($id);
+        return view('purchase', ['item' => $item]);
+    }
+
 }

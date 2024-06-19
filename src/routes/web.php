@@ -30,4 +30,5 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(ItemController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/item/{id}', 'show')->name('item.show');
+    Route::get('/item/{id}/purchase', 'purchase')->name('item.purchase');
 });

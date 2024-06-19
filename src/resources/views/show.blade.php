@@ -16,7 +16,7 @@
             <h1>{{ $item->name }}</h1>
             <span>ブランド名</span>
             <p class="price">¥{{ number_format($item->price) }}(値段)</p>
-            <button class="buy-button">購入する</button>
+            <button class="buy-button" onclick="window.location.href='{{ route('item.purchase', ['id' => $item->id]) }}'">購入する</button>
             <h2>商品説明</h2>
             <p>{{ $item->description }}</p>
             <h2>商品の情報</h2>
