@@ -5,10 +5,10 @@
 
 .item-detail {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 左右に半分ずつ分割 */
+    grid-template-columns: 1fr 1fr;
     gap: 10%;
     padding: 20px;
-    justify-content: center; /* 中央揃え */
+    justify-content: center;
     margin-top: 100px;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .item-info {
-    text-align: left; /* 左寄せ */
+    text-align: left;
 }
 
 .item-info h1{
