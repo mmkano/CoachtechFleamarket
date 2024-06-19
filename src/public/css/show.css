@@ -1,0 +1,60 @@
+.info-container{
+    max-width: 1230px;
+    margin: 0 auto;
+}
+
+.item-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 左右に半分ずつ分割 */
+    gap: 10%;
+    padding: 20px;
+    justify-content: center; /* 中央揃え */
+    margin-top: 100px;
+}
+
+.item-image {
+    display: flex;
+}
+
+.item-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.item-info {
+    text-align: left; /* 左寄せ */
+}
+
+.item-info h1{
+    margin: 0;
+}
+
+.item-info .price{
+    margin: 15px 0;
+    font-size: 25px;
+}
+
+.item-info h2{
+    margin-top: 30px;
+}
+
+.buy-button {
+    background-color: #ff5655;
+    color: #fff;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+#selected-category, #selected-condition{
+    margin-left: 30px;
+}
+
+#selected-category{
+    background: #d9d9d9;
+    padding: 5px 30px 5px 25px;
+    border-radius: 100px;
+}
