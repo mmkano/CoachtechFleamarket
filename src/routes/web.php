@@ -31,4 +31,6 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/item/{id}', 'show')->name('item.show');
     Route::get('/item/{id}/purchase', 'purchase')->name('item.purchase');
+    Route::get('/item/{id}/address', 'address')->name('address');
+    Route::post('/address/update', 'updateAddress')->name('address.update');
 });
