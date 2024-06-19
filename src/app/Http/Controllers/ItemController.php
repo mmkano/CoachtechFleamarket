@@ -27,4 +27,8 @@ class ItemController extends Controller
         return view('purchase', ['item' => $item]);
     }
 
+    public function address()
+    {
+        return view('address');
+    }
 }

@@ -49,7 +49,7 @@
                     <p class="summary-value-method">コンビニ払い</p>
                 </div>
             </div>
-            <button class="buy-button">購入する</button>
+            <button class="buy-button" onclick="window.location.href='{{ route('address', ['id' => $item->id]) }}'">購入する</button>
         </div>
     </div>
 @endsection
