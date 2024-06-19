@@ -31,4 +31,8 @@ class ItemController extends Controller
     {
         return view('address');
     }
+    public function create()
+    {
+        return view('create');
+    }
 }

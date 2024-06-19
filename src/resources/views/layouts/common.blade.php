@@ -25,7 +25,7 @@
                     <a href="{{ route('login') }}" class="nav-link">ログイン</a>
                     <a href="{{ route('register') }}" class="nav-link">会員登録</a>
                 @endif
-                <a href="" class="nav-link sell">出品</a>
+                <a href="{{ route('create') }}" class="nav-link sell">出品</a>
             </nav>
         </div>
     </header>
@@ -33,5 +33,7 @@
     <main>
         @yield('content')
     </main>
+
+    @yield('scripts')
 </body>
 </html>
