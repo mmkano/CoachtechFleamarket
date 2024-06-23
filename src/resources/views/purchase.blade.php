@@ -1,4 +1,4 @@
-@extends('layouts.common')
+@extends('layouts.main')
 
 @section('title', '購入ページ')
 
