@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -35,3 +36,5 @@ Route::controller(ItemController::class)->group(function () {
     Route::post('/address/update', 'updateAddress')->name('address.update');
     Route::get('/create', 'create')->name('create');
 });
+
+Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');

@@ -17,7 +17,7 @@
                 @if(Auth::check())
                     <a href="{{ route('logout') }}" class="nav-link"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
-                    <a href="" class="nav-link">マイページ</a>
+                    <a href="{{ route('mypage') }}" class="nav-link">マイページ</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
