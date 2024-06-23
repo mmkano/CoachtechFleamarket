@@ -23,11 +23,7 @@ body {
     border: none;
 }
 
-.search-bar.logged-out {
-    margin: 0 120px;
-}
-
-.search-bar.logged-in {
+.search-bar{
     margin: 0 110px;
 }
 
