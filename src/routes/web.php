@@ -17,16 +17,16 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'showRegisterForm')->name('register');
     Route::post('/register', 'register');
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'login');
 });
+
+Route::get('/', function () {
+    return view('index');
+})->name('home')->middleware('auth');
 
 Route::controller(ItemController::class)->group(function () {
     Route::get('/', 'index')->name('home');
