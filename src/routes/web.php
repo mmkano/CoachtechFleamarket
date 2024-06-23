@@ -36,6 +36,8 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('/item/{id}/address', 'address')->name('address');
     Route::post('/address/update', 'updateAddress')->name('address.update');
     Route::get('/create', 'create')->name('create');
+    Route::get('/item/{id}/comments', 'showComments')->name('item.comments');
+    Route::post('/item/{id}/comments', 'submitComment')->name('item.comment.submit');
 });
 
 Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
