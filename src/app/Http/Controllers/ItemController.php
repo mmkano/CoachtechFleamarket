@@ -35,4 +35,17 @@ class ItemController extends Controller
     {
         return view('create');
     }
+
+    public function showComments($id)
+    {
+        $item = Item::findOrFail($id);
+        return view('comment', compact('item'));
+    }
+
+    public function submitComment(Request $request, $id)
+    {
+        $item = Item::findOrFail($id);
+        return redirect()->route('item.comments', ['id' => $id]);
+    }
+
 }
