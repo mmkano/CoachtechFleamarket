@@ -17,7 +17,7 @@
                 <h2>ユーザー名</h2>
             </div>
             </div>
-            <button class="edit-profile-button">プロフィールを編集</button>
+            <button class="edit-profile-button" onclick="location.href='{{ route('profile.edit') }}'">プロフィールを編集</button>
         </div>
 
         <div class="tabs">
