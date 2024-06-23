@@ -1,0 +1,79 @@
+.mypage-container {
+    max-width: 1230px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin: 50px 150px;
+}
+
+.profile__inner{
+    display: flex;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 60px;
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.edit-profile-button {
+    background-color: #fff;
+    color: #ff4d4d;
+    border: 2px solid #ff4d4d;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: auto;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #a1a1a1;
+    margin: 10px -130px;
+    padding: 0 160px;
+    margin-top: 30px;
+}
+
+.tab {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #5f5f5f;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    color: red;
+    font-weight: bold;
+    margin-right: 100px;
+}
+
+.items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 100px;
+    padding: 50px;
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+}
