@@ -42,4 +42,14 @@ class AuthController extends Controller
 
         return redirect()->route('login')->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('status', 'You have been logged out!');
+    }
 }
