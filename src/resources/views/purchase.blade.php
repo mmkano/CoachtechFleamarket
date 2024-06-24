@@ -28,7 +28,7 @@
                 <div class="delivery-address">
                     <div class="delivery-address__header">
                         <span>配送先</span>
-                        <a href="#" class="change-link-address">変更する</a>
+                        <a href="{{ route('address', ['id' => $item->id]) }}" class="change-link-address">変更する</a>
                     </div>
                 </div>
             </div>
