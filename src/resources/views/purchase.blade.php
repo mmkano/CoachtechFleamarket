@@ -11,7 +11,7 @@
         <div class="item-info">
             <div class="item__inner">
                 <div class="item-image">
-                    <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
+                <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
                 </div>
                 <div class="item-details">
                     <h1>{{ $item->name }}</h1>

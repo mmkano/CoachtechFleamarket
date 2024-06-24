@@ -26,30 +26,11 @@
         </div>
 
         <div class="items">
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
-            <div class="item">
-                <img src="{{ asset('images/default.png') }}" alt="商品画像">
-            </div>
+            @foreach($items as $item)
+                <div class="item">
+                    <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection
