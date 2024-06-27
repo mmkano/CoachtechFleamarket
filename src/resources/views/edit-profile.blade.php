@@ -13,7 +13,11 @@
             @csrf
             <div class="profile-image-section">
                 <div class="profile-image">
-                    <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
+                    @if(Auth::user()->profile_image)
+                        <img id="profileImagePreview" src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="ユーザー画像">
+                    @else
+                        <img id="profileImagePreview" src="{{ asset('images/default.png') }}" alt="ユーザー画像">
+                    @endif
                 </div>
                 <div class="file-input-container">
                     <input type="file" id="profile_image" name="profile_image" accept="image/*" class="file-input">
@@ -22,7 +26,7 @@
             </div>
             <div class="input-group">
                 <label for="name">ユーザー名</label>
-                <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}">
+                <input type="text" id="name" name="name" value="{{ old('name', Auth::user()->name) }}">
             </div>
             <div class="input-group">
                 <label for="postal_code">郵便番号</label>
@@ -39,4 +43,24 @@
             <button type="submit" class="submit-button">更新する</button>
         </form>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileImageInput = document.getElementById('profile_image');
+            const profileImagePreview = document.getElementById('profileImagePreview');
+
+            profileImageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profileImagePreview.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 @endsection
