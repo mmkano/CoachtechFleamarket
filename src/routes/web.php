@@ -44,6 +44,7 @@ Route::controller(ItemController::class)->group(function () {
 Route::controller(CommentController::class)->group(function () {
     Route::get('/item/{id}/comments', 'showComments')->name('comments.show');
     Route::post('/item/{id}/comments', 'submitComment')->name('comments.submit');
+    Route::delete('/item/{item}/comments/{comment}', 'deleteComment')->name('comments.delete');
 });
 
 Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');

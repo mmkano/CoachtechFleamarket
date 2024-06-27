@@ -30,4 +30,17 @@ class CommentController extends Controller
 
         return redirect()->route('comments.show', ['id' => $id]);
     }
+
+    public function deleteComment($itemId, $commentId)
+    {
+        $comment = Comment::where('item_id', $itemId)->where('id', $commentId)->firstOrFail();
+
+        if (auth()->id() !== $comment->user_id && !auth()->user()->is_admin) {
+            return redirect()->route('comments.show', ['id' => $itemId])->with('error', '権限がありません。');
+        }
+
+        $comment->delete();
+
+        return redirect()->route('comments.show', ['id' => $itemId])->with('status', 'コメントを削除しました。');
+    }
 }
