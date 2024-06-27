@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -38,8 +39,11 @@ Route::controller(ItemController::class)->group(function () {
     Route::post('/address/update', 'updateAddress')->name('address.update');
     Route::get('/create', 'create')->name('create');
     Route::post('/create', 'store')->name('item.store');
-    Route::get('/item/{id}/comments', 'showComments')->name('item.comments');
-    Route::post('/item/{id}/comments', 'submitComment')->name('item.comment.submit');
+});
+
+Route::controller(CommentController::class)->group(function () {
+    Route::get('/item/{id}/comments', 'showComments')->name('comments.show');
+    Route::post('/item/{id}/comments', 'submitComment')->name('comments.submit');
 });
 
 Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
