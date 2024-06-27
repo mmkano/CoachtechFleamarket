@@ -10,12 +10,16 @@
     <div class="mypage-container">
         <div class="profile-section">
             <div class="profile__inner">
-            <div class="profile-image">
-                <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
-            </div>
-            <div class="profile-name">
-                <h2>ユーザー名</h2>
-            </div>
+                <div class="profile-image">
+                    @if(Auth::user()->profile_image)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="ユーザー画像">
+                    @else
+                        <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
+                    @endif
+                </div>
+                <div class="profile-name">
+                    <h2>{{ $user->name ?? $user->email }}</h2>
+                </div>
             </div>
             <button class="edit-profile-button" onclick="location.href='{{ route('profile.edit') }}'">プロフィールを編集</button>
         </div>
