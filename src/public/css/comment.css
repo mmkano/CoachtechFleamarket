@@ -124,15 +124,6 @@
     margin-right: 10px;
 }
 
-.comment-author.right {
-    flex-direction: row-reverse;
-}
-
-.comment-author.right .author-avatar{
-    margin-left: 15px;
-}
-
-
 .author-name {
     font-weight: bold;
 }
@@ -142,4 +133,13 @@
     padding:  25px 10px;
     border-radius: 5px;
     width: 100%;
+}
+
+.comment-author.reverse {
+    flex-direction: row-reverse;
+}
+
+.comment-author.reverse .author-avatar {
+    margin-left: 15px;
+    margin-right: 0;
 }
