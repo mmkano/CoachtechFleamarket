@@ -23,8 +23,8 @@
                     <span>3</span>
                 </div>
                 <div class="icon">
-                    <a href="{{ route('item.comments', ['id' => $item->id]) }}"><i class="far fa-comment"></i></a>
-                    <span>14</span>
+                    <a href="{{ route('comments.show', ['id' => $item->id]) }}"><i class="far fa-comment"></i></a>
+                        <span>{{ $item->comments->count() }}</span>
                 </div>
             </div>
             <button class="buy-button" onclick="window.location.href='{{ route('item.purchase', ['id' => $item->id]) }}'">購入する</button>

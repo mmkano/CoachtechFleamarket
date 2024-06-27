@@ -73,16 +73,4 @@ class ItemController extends Controller
 
         return redirect()->route('home')->with('status', '商品を出品しました。');
     }
-
-    public function showComments($id)
-    {
-        $item = Item::findOrFail($id);
-        return view('comment', compact('item'));
-    }
-
-    public function submitComment(Request $request, $id)
-    {
-        $item = Item::findOrFail($id);
-        return redirect()->route('item.comments', ['id' => $id]);
-    }
 }
