@@ -24,10 +24,14 @@
                 </div>
                 <div class="icon">
                     <a href="{{ route('comments.show', ['id' => $item->id]) }}"><i class="far fa-comment"></i></a>
-                        <span>{{ $item->comments->count() }}</span>
+                    <span>{{ $item->comments->count() }}</span>
                 </div>
             </div>
-            <button class="buy-button" onclick="window.location.href='{{ route('item.purchase', ['id' => $item->id]) }}'">購入する</button>
+            @auth
+                <button class="buy-button" onclick="window.location.href='{{ route('item.purchase', ['id' => $item->id]) }}'">購入する</button>
+            @else
+                <button class="buy-button" onclick="window.location.href='{{ route('login') }}'">購入する</button>
+            @endauth
             <h2>商品説明</h2>
             <p>{{ $item->description }}</p>
             <h2>商品の情報</h2>

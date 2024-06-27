@@ -11,6 +11,10 @@ class CommentController extends Controller
 {
     public function showComments($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'コメントを見るにはログインしてください。');
+        }
+
         $item = Item::findOrFail($id);
         $comments = $item->comments;
         return view('comment', compact('item', 'comments'));

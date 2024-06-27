@@ -24,6 +24,10 @@ class ItemController extends Controller
 
     public function purchase($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', '購入するにはログインしてください。');
+        }
+
         $item = Item::findOrFail($id);
         return view('purchase', ['item' => $item]);
     }
