@@ -10,7 +10,9 @@
 </head>
 <body>
     <header class="header">
+        <a href="{{ route('home') }}">
             <img src="{{ asset('images/logo.svg') }}" alt="COACHTECHロゴ" class="logo">
+        </a>
     </header>
 
     <main>
