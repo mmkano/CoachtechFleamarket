@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:10',
             'address' => 'nullable|string|max:255',
             'building_name' => 'nullable|string|max:255',
@@ -34,12 +34,12 @@ class ProfileController extends Controller
             $user->profile_image = $path;
         }
 
-        $user->name = $request->name;
+        $user->name = $request->name ?: $user->email;
         $user->postal_code = $request->postal_code;
         $user->address = $request->address;
         $user->building_name = $request->building_name;
         $user->save();
 
-        return redirect()->route('home')->with('status', 'プロフィールが更新されました。');
+        return redirect()->route('home');
     }
 }
