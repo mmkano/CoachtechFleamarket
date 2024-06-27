@@ -34,7 +34,13 @@
                                 <div class="author-avatar"></div>
                                 <span class="author-name">{{ $comment->user->name }}</span>
                             </div>
-                            <div class="comment-content">{{ $comment->comment }}</div>
+                            <div class="comment-content">{{ $comment->comment }}
+                                @if(auth()->id() === $comment->user_id || auth()->user()->is_admin)
+                                    <button class="delete-button" onclick="confirmDelete({{ $item->id }}, {{ $comment->id }})">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                @endif
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -49,4 +55,35 @@
             </div>
         </div>
     </div>
+
+    <!-- モーダルダイアログ -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h1>コメントの削除</h1>
+            <p>本当にこのコメントを削除してよろしいですか？</p>
+            <form id="deleteForm" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-buttons">
+                    <button type="submit" class="confirm-delete-button">削除する</button>
+                    <button type="button" class="cancel-button" onclick="closeModal()">キャンセル</button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        function confirmDelete(itemId, commentId) {
+            const form = document.getElementById('deleteForm');
+            form.action = `/item/${itemId}/comments/${commentId}`;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+    </script>
 @endsection
