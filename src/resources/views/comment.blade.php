@@ -31,7 +31,13 @@
                     @foreach($item->comments->unique('user_id') as $comment)
                         <div class="comment-item">
                             <div class="comment-author {{ ($loop->index + 1) % 3 == 0 ? 'reverse' : '' }}">
-                                <div class="author-avatar"></div>
+                                <div class="author-avatar">
+                                @if($comment->user->profile_image)
+                                        <img src="{{ asset('storage/' . $comment->user->profile_image) }}" alt="ユーザー画像">
+                                    @else
+                                        <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
+                                    @endif
+                                </div>
                                 <span class="author-name">{{ $comment->user->name }}</span>
                             </div>
                             <div class="comment-content">{{ $comment->comment }}
