@@ -8,36 +8,45 @@
 @endsection
 
 @section('content')
-<div class="info-container">
-    <div class="item-detail">
-        <div class="item-image">
-            <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
-        </div>
-        <div class="item-info">
-            <h1>{{ $item->name }}</h1>
-            <span>ブランド名</span>
-            <p class="price">¥{{ number_format($item->price) }}(値段)</p>
-            <div class="icons">
-                <div class="icon">
-                    <i class="far fa-star"></i>
-                    <span>3</span>
-                </div>
-                <div class="icon">
-                    <a href="{{ route('comments.show', ['id' => $item->id]) }}"><i class="far fa-comment"></i></a>
-                    <span>{{ $item->comments->count() }}</span>
-                </div>
+    <div class="info-container">
+        <div class="item-detail">
+            <div class="item-image">
+                <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
             </div>
-            @auth
-                <button class="buy-button" onclick="window.location.href='{{ route('item.purchase', ['id' => $item->id]) }}'">購入する</button>
-            @else
-                <button class="buy-button" onclick="window.location.href='{{ route('login') }}'">購入する</button>
-            @endauth
-            <h2>商品説明</h2>
-            <p>{{ $item->description }}</p>
-            <h2>商品の情報</h2>
-            <p>カテゴリー: <span id="selected-category">{{ $item->categoryItem->name }}</span></p>
-            <p>商品の状態: <span id="selected-condition">{{ $item->condition->name }}</span></p>
+            <div class="item-info">
+                <h1>{{ $item->name }}</h1>
+                <span>ブランド名</span>
+                <p class="price">¥{{ number_format($item->price) }}(値段)</p>
+                <div class="icons">
+                    <div class="icon">
+                        <form class="star-form" action="{{ route('favorite.toggle', ['item' => $item->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="favorite-button">
+                                @if(Auth::user()->favorites->contains('item_id', $item->id))
+                                    <i class="fas fa-star"></i>
+                                @else
+                                    <i class="far fa-star"></i>
+                                @endif
+                            </button>
+                            <span class="icon-count">{{ $item->favorites->count() }}</span>
+                        </form>
+                    </div>
+                    <div class="icon">
+                        <a href="{{ route('comments.show', ['id' => $item->id]) }}"><i class="far fa-comment"></i></a>
+                        <span class="icon-count">{{ $item->comments->count() }}</span>
+                    </div>
+                </div>
+                @auth
+                    <button class="buy-button" onclick="window.location.href='{{ route('item.purchase', ['id' => $item->id]) }}'">購入する</button>
+                @else
+                    <button class="buy-button" onclick="window.location.href='{{ route('login') }}'">購入する</button>
+                @endauth
+                <h2 class="item-description-title">商品説明</h2>
+                <p class="item-description">{{ $item->description }}</p>
+                <h2 class="item-info-title">商品の情報</h2>
+                <p class="item-category">カテゴリー <span id="selected-category">{{ $item->categoryItem->name }}</span></p>
+                <p class="item-condition">商品の状態 <span id="selected-condition">{{ $item->condition->name }}</span></p>
+            </div>
         </div>
     </div>
-</div>
 @endsection
