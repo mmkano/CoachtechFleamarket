@@ -18,7 +18,7 @@ class ItemController extends Controller
 
     public function show($id)
     {
-        $item = Item::findOrFail($id);
+        $item = Item::with('favorites', 'comments')->findOrFail($id);
         return view('show', ['item' => $item]);
     }
 
