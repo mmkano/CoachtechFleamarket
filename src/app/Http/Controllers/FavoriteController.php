@@ -9,23 +9,29 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    public function toggleFavorite($itemId)
+    public function toggleFavorite(Item $item)
     {
         $user = Auth::user();
-
-        $favorite = Favorite::where('user_id', $user->id)
-                            ->where('item_id', $itemId)
-                            ->first();
+        $favorite = $user->favorites()->where('item_id', $item->id)->first();
 
         if ($favorite) {
             $favorite->delete();
+            return redirect()->back()->with('status', 'お気に入りを解除しました。');
         } else {
             Favorite::create([
                 'user_id' => $user->id,
-                'item_id' => $itemId,
+                'item_id' => $item->id,
             ]);
+            return redirect()->back()->with('status', 'お気に入りに追加しました。');
         }
-
-        return redirect()->back();
     }
+
+    public function destroy(Item $item)
+    {
+        $favorite = Auth::user()->favorites()->where('item_id', $item->id)->firstOrFail();
+        $favorite->delete();
+
+        return redirect()->back()->with('status', 'お気に入りを解除しました。');
+    }
+
 }

@@ -21,13 +21,16 @@
                     <div class="icon">
                         <form class="star-form" action="{{ route('favorite.toggle', ['item' => $item->id]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="favorite-button">
-                                @if(Auth::user()->favorites->contains('item_id', $item->id))
+                            @if(Auth::user()->favorites->contains('item_id', $item->id))
+                                @method('DELETE')
+                                <button type="submit" class="favorite-button">
                                     <i class="fas fa-star"></i>
-                                @else
+                                </button>
+                            @else
+                                <button type="submit" class="favorite-button">
                                     <i class="far fa-star"></i>
-                                @endif
-                            </button>
+                                </button>
+                            @endif
                             <span class="icon-count">{{ $item->favorites->count() }}</span>
                         </form>
                     </div>

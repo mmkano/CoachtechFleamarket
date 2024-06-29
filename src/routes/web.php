@@ -55,4 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::post('/favorite/{item}', [FavoriteController::class, 'toggleFavorite'])->name('favorite.toggle');
+Route::controller(FavoriteController::class)->group(function () {
+    Route::post('/favorite/{item}', 'toggleFavorite')->name('favorite.toggle');
+    Route::delete('/favorite/{item}', 'destroy')->name('favorite.destroy');
+});
