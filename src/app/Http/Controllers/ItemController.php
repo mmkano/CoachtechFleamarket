@@ -28,13 +28,63 @@ class ItemController extends Controller
             return redirect()->route('login')->with('error', '購入するにはログインしてください。');
         }
 
+        $user = Auth::user();
+        if (is_null($user->postal_code) || is_null($user->address)) {
+            return redirect()->route('profile.edit')->with('error', '配送先を設定してください。');
+        }
+
         $item = Item::findOrFail($id);
         return view('purchase', ['item' => $item]);
     }
 
-    public function address()
+    public function complete()
     {
-        return view('address');
+        return view('complete');
+    }
+
+    public function confirmPurchase(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        $request->merge([
+            'postal_code' => $user->postal_code,
+            'address' => $user->address,
+        ]);
+
+        $request->validate([
+            'postal_code' => 'required|string|max:10',
+            'address' => 'required|string|max:255',
+        ], [
+            'postal_code.required' => '郵便番号を登録してください。',
+            'address.required' => '住所を登録してください。',
+        ]);
+
+        $item = Item::findOrFail($id);
+
+        return redirect()->route('item.complete')->with('status', '購入が完了しました。');
+    }
+
+    public function address($id)
+    {
+        $item = Item::findOrFail($id);
+        return view('address', ['item' => $item]);
+    }
+
+    public function updateAddress(Request $request, $id)
+    {
+        $request->validate([
+            'postal_code' => 'required|string|max:10',
+            'address' => 'required|string|max:255',
+            'building_name' => 'nullable|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->postal_code = $request->postal_code;
+        $user->address = $request->address;
+        $user->building_name = $request->building_name;
+        $user->save();
+
+        return redirect()->route('item.purchase', ['id' => $id])->with('status', '配送先を更新しました。');
     }
 
     public function create()

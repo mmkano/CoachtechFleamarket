@@ -14,19 +14,19 @@
     <main>
         <div class="address-container">
             <h1>住所の変更</h1>
-            <form action="{{ route('address.update') }}" method="POST">
+            <form action="{{ route('address.update', ['id' => $item->id]) }}" method="POST">
                 @csrf
                 <div class="input-group">
                     <label for="postal_code">郵便番号</label>
-                    <input type="text" id="postal_code" name="postal_code">
+                    <input type="text" id="postal_code" name="postal_code" value="{{ old('postal_code', Auth::user()->postal_code) }}">
                 </div>
                 <div class="input-group">
                     <label for="address">住所</label>
-                    <input type="text" id="address" name="address">
+                    <input type="text" id="address" name="address" value="{{ old('address', Auth::user()->address) }}">
                 </div>
                 <div class="input-group">
                     <label for="building_name">建物名</label>
-                    <input type="text" id="building_name" name="building_name">
+                    <input type="text" id="building_name" name="building_name" value="{{ old('building_name', Auth::user()->building_name) }}">
                 </div>
                 <button type="submit" class="update-button">更新する</button>
             </form>
