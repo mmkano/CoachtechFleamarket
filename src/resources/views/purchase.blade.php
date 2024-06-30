@@ -22,7 +22,7 @@
             <div class="payment-method">
                 <div class="payment-method__header">
                     <span>支払い方法</span>
-                    <a href="#" class="change-link-payment">変更する</a>
+                    <a href="{{ route('payment.change', ['id' => $item->id]) }}" class="change-link-payment">変更する</a>
                 </div>
             </div>
             <div class="delivery-address">
@@ -46,7 +46,7 @@
             </div>
             <div class="summary-item">
                 <p class="summary-label">支払い方法</p>
-                <p class="summary-value-method">コンビニ払い</p>
+                <p class="summary-value-method">{{ $user->payment_method == 'credit_card' ? 'クレジットカード' : ($user->payment_method == 'bank_transfer' ? '銀行振込' : 'コンビニ払い') }}</p>
             </div>
         </div>
         <form action="{{ route('item.confirm-purchase', ['id' => $item->id]) }}" method="POST">
