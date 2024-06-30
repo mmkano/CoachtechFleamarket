@@ -37,9 +37,11 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('/item/{id}', 'show')->name('item.show');
     Route::get('/item/{id}/purchase', 'purchase')->name('item.purchase');
     Route::get('/item/{id}/address', 'address')->name('address');
-    Route::post('/address/update', 'updateAddress')->name('address.update');
+    Route::post('/item/{id}/address/update', 'updateAddress')->name('address.update');
+    Route::post('/item/{id}/confirm-purchase', 'confirmPurchase')->name('item.confirm-purchase');
     Route::get('/create', 'create')->name('create');
     Route::post('/create', 'store')->name('item.store');
+    Route::get('/complete', 'complete')->name('item.complete');
 });
 
 Route::controller(CommentController::class)->group(function () {
