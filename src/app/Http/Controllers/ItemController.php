@@ -34,7 +34,7 @@ class ItemController extends Controller
         }
 
         $item = Item::findOrFail($id);
-        return view('purchase', ['item' => $item]);
+        return view('purchase', ['item' => $item, 'user' => $user]);
     }
 
     public function complete()

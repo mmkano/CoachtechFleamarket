@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -60,4 +61,9 @@ Route::middleware('auth')->group(function () {
 Route::controller(FavoriteController::class)->group(function () {
     Route::post('/favorite/{item}', 'toggleFavorite')->name('favorite.toggle');
     Route::delete('/favorite/{item}', 'destroy')->name('favorite.destroy');
+});
+
+Route::controller(PaymentController::class)->group(function () {
+    Route::get('/item/{id}/change-payment', 'changePaymentMethod')->name('payment.change');
+    Route::post('/item/{id}/update-payment', 'updatePaymentMethod')->name('payment.update');
 });
