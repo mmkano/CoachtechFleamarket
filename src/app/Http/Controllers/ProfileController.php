@@ -31,6 +31,16 @@ class ProfileController extends Controller
         $user->postal_code = $request->postal_code;
         $user->address = $request->address;
         $user->building_name = $request->building_name;
+        $user->credit_card_number = $request->credit_card_number;
+        $user->credit_card_expiration = $request->credit_card_expiration;
+        $user->credit_card_cvc = $request->credit_card_cvc;
+        $user->bank_account_number = $request->bank_account_number;
+        $user->bank_branch_name = $request->bank_branch_name;
+        $user->bank_branch_code = $request->bank_branch_code;
+        $user->bank_name = $request->bank_name;
+        $user->bank_account_type = $request->bank_account_type;
+        $user->bank_account_holder = $request->bank_account_holder;
+
         $user->save();
 
         return redirect()->route('home');

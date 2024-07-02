@@ -73,8 +73,31 @@
     cursor: pointer;
     font-size: 20px;
     margin-top: 70px;
+    margin-bottom: 100px;
 }
 
 .submit-button:hover {
     background-color: #ff4b4b;
+}
+.toggle-section {
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 0;
+}
+
+.toggle-section .fa-plus-circle, .toggle-section .fa-minus-circle {
+    font-size: 20px;
+}
+
+.toggle-content {
+    display: none;
+    overflow: hidden;
+}
+
+.toggle-content.active {
+    display: block;
+}
+
+.fas{
+    margin-left: 20px;
 }
