@@ -10,7 +10,7 @@
 @section('content')
     <div class="profile-edit-container">
         <h1>プロフィール設定</h1>
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" id="profile-form">
             @csrf
             <div class="profile-image-section">
                 <div class="profile-image">
@@ -48,13 +48,14 @@
                     <input type="text" id="credit_card_number" name="credit_card_number" value="{{ old('credit_card_number', Auth::user()->credit_card_number) }}">
                 </div>
                 <div class="input-group">
-                    <label for="credit_card_expiration">有効期限</label>
+                    <label for="credit_card_expiration">有効期限 (YY/MM)</label>
                     <input type="text" id="credit_card_expiration" name="credit_card_expiration" value="{{ old('credit_card_expiration', Auth::user()->credit_card_expiration) }}">
                 </div>
                 <div class="input-group">
                     <label for="credit_card_cvc">CVC</label>
                     <input type="text" id="credit_card_cvc" name="credit_card_cvc" value="{{ old('credit_card_cvc', Auth::user()->credit_card_cvc) }}">
                 </div>
+                <div id="card-element"></div>
             </div>
             <h2 class="toggle-section" data-target="#bankInfo">銀行情報 <i class="fas fa-chevron-down"></i></h2>
             <div id="bankInfo" class="toggle-content">
@@ -89,8 +90,14 @@
 @endsection
 
 @section('scripts')
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+            const elements = stripe.elements();
+            const cardElement = elements.create('card');
+            cardElement.mount('#card-element');
+
             const profileImageInput = document.getElementById('profile_image');
             const profileImagePreview = document.getElementById('profileImagePreview');
 
@@ -113,6 +120,25 @@
                     target.classList.toggle('active');
                     icon.classList.toggle('fa-times');
                 });
+            });
+
+            const form = document.getElementById('profile-form');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const {token, error} = await stripe.createToken(cardElement);
+                if (error) {
+                    // Handle error
+                } else {
+                    // Insert the token ID into the form so it gets submitted to the server
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'stripe_token');
+                    hiddenInput.setAttribute('value', token.id);
+                    form.appendChild(hiddenInput);
+
+                    // Submit the form
+                    form.submit();
+                }
             });
         });
     </script>

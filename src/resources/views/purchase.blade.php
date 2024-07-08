@@ -7,52 +7,71 @@
 @endsection
 
 @section('content')
-<div class="purchase-container">
-    <div class="item-info">
-        <div class="item__inner">
-            <div class="item-image">
-                <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
-            </div>
-            <div class="item-details">
-                <h1>{{ $item->name }}</h1>
-                <p>¥{{ number_format($item->price) }}</p>
-            </div>
-        </div>
-        <div class="payment-info">
-            <div class="payment-method">
-                <div class="payment-method__header">
-                    <span>支払い方法</span>
-                    <a href="{{ route('payment.change', ['id' => $item->id]) }}" class="change-link-payment">変更する</a>
+    <div class="purchase-container">
+        <div class="item-info">
+            <div class="item__inner">
+                <div class="item-image">
+                    <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                </div>
+                <div class="item-details">
+                    <h1>{{ $item->name }}</h1>
+                    <p>¥{{ number_format($item->price) }}</p>
                 </div>
             </div>
-            <div class="delivery-address">
-                <div class="delivery-address__header">
-                    <span>配送先</span>
-                    <a href="{{ route('address', ['id' => $item->id]) }}" class="change-link-address">変更する</a>
+            <div class="payment-info">
+                <div class="payment-method">
+                    <div class="payment-method__header">
+                        <span>支払い方法</span>
+                        <a href="{{ route('payment.change', ['id' => $item->id]) }}" class="change-link-payment">変更する</a>
+                    </div>
+                </div>
+                <div class="delivery-address">
+                    <div class="delivery-address__header">
+                        <span>配送先</span>
+                        <a href="{{ route('address', ['id' => $item->id]) }}" class="change-link-address">変更する</a>
+                    </div>
+                    <div class="delivery-address__details">
+                        @if ($user->postal_code && $user->address)
+                            <p>〒{{ $user->postal_code }}</p>
+                            <p>{{ $user->address }}</p>
+                            @if ($user->building_name)
+                                <p>{{ $user->building_name }}</p>
+                            @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="order-summary">
-        <div class="summary__inner">
-            <div class="summary-item">
-                <p class="summary-label">商品代金</p>
-                <p class="summary-value-price">¥{{ number_format($item->price) }}</p>
+        <div class="order-summary">
+            <div class="summary__inner">
+                <div class="summary-item">
+                    <p class="summary-label">商品代金</p>
+                    <p class="summary-value-price">¥{{ number_format($item->price) }}</p>
+                </div>
+                <div class="summary-item summary-item-payment">
+                    <p class="summary-label">支払い金額</p>
+                    <p class="summary-value-total">¥{{ number_format($item->price) }}</p>
+                </div>
+                <div class="summary-item">
+                    <p class="summary-label">支払い方法</p>
+                    <p class="summary-value-method">
+                        @if($item->payment_method)
+                            @if($item->payment_method == 'credit_card')
+                                クレジットカード
+                            @elseif($item->payment_method == 'bank_transfer')
+                                銀行振込
+                            @elseif($item->payment_method == 'convenience_store')
+                                コンビニ払い
+                            @endif
+                        @endif
+                    </p>
+                </div>
             </div>
-            <div class="summary-item summary-item-payment">
-                <p class="summary-label">支払い金額</p>
-                <p class="summary-value-total">¥{{ number_format($item->price) }}</p>
-            </div>
-            <div class="summary-item">
-                <p class="summary-label">支払い方法</p>
-                <p class="summary-value-method">{{ $user->payment_method == 'credit_card' ? 'クレジットカード' : ($user->payment_method == 'bank_transfer' ? '銀行振込' : 'コンビニ払い') }}</p>
-            </div>
+            <form action="{{ route('item.confirm-purchase', ['id' => $item->id]) }}" method="POST">
+                @csrf
+                <button type="submit" class="buy-button">購入する</button>
+            </form>
         </div>
-        <form action="{{ route('item.confirm-purchase', ['id' => $item->id]) }}" method="POST">
-            @csrf
-            <button type="submit" class="buy-button">購入する</button>
-        </form>
     </div>
-</div>
 @endsection
