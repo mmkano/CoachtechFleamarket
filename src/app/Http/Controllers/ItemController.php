@@ -7,6 +7,9 @@ use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentInformationMail;
+use Illuminate\Support\Facades\Log;
 
 class ItemController extends Controller
 {
@@ -28,7 +31,10 @@ class ItemController extends Controller
             return redirect()->route('login')->with('error', '購入するにはログインしてください。');
         }
 
+        $item = Item::findOrFail($id);
+
         $user = Auth::user();
+        Log::info('User Payment Method:', ['payment_method' => $item->payment_method]);
         if (is_null($user->postal_code) || is_null($user->address)) {
             return redirect()->route('profile.edit')->with('error', '配送先を設定してください。');
         }
@@ -43,26 +49,34 @@ class ItemController extends Controller
     }
 
     public function confirmPurchase(Request $request, $id)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
+    $item = Item::findOrFail($id);
 
-        $request->merge([
-            'postal_code' => $user->postal_code,
-            'address' => $user->address,
-        ]);
+    $request->merge([
+        'postal_code' => $user->postal_code,
+        'address' => $user->address,
+        'payment_method' => $item->payment_method, // アイテムに紐づけた支払い方法を使用
+    ]);
 
-        $request->validate([
-            'postal_code' => 'required|string|max:10',
-            'address' => 'required|string|max:255',
-        ], [
-            'postal_code.required' => '郵便番号を登録してください。',
-            'address.required' => '住所を登録してください。',
-        ]);
+    $request->validate([
+        'postal_code' => 'required|string|max:10',
+        'address' => 'required|string|max:255',
+        'payment_method' => 'required|string',
+    ], [
+        'postal_code.required' => '郵便番号を登録してください。',
+        'address.required' => '住所を登録してください。',
+        'payment_method.required' => '支払い方法を選択してください。',
+    ]);
 
-        $item = Item::findOrFail($id);
-
-        return redirect()->route('item.complete')->with('status', '購入が完了しました。');
+    if ($item->payment_method == 'credit_card') {
+        // クレジットカードの処理後にcomplete.blade.phpへ遷移
+        return redirect()->route('item.complete', ['id' => $id])->with('status', '購入が完了しました。');
+    } elseif ($item->payment_method == 'bank_transfer' || $item->payment_method == 'convenience_store') {
+        Mail::to($user->email)->send(new PaymentInformationMail($user, $item, $item->payment_method));
+        return redirect()->route('payment.sent');
     }
+}
 
     public function address($id)
     {

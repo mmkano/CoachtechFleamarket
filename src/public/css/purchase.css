@@ -111,3 +111,7 @@
     margin-top: 60px;
     font-size: 20px;
 }
+
+.delivery-address__header{
+    margin-bottom: 0;
+}

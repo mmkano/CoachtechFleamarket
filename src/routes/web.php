@@ -66,4 +66,9 @@ Route::controller(FavoriteController::class)->group(function () {
 Route::controller(PaymentController::class)->group(function () {
     Route::get('/item/{id}/change-payment', 'changePaymentMethod')->name('payment.change');
     Route::post('/item/{id}/update-payment', 'updatePaymentMethod')->name('payment.update');
+    Route::post('/item/{id}/complete-payment', 'completePayment')->name('payment.complete');
 });
+
+Route::get('/payment/sent', function () {
+    return view('sent');
+})->name('payment.sent');
