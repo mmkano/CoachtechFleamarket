@@ -56,7 +56,7 @@ class ItemController extends Controller
     $request->merge([
         'postal_code' => $user->postal_code,
         'address' => $user->address,
-        'payment_method' => $item->payment_method, // アイテムに紐づけた支払い方法を使用
+        'payment_method' => $item->payment_method,
     ]);
 
     $request->validate([
@@ -70,7 +70,6 @@ class ItemController extends Controller
     ]);
 
     if ($item->payment_method == 'credit_card') {
-        // クレジットカードの処理後にcomplete.blade.phpへ遷移
         return redirect()->route('item.complete', ['id' => $id])->with('status', '購入が完了しました。');
     } elseif ($item->payment_method == 'bank_transfer' || $item->payment_method == 'convenience_store') {
         Mail::to($user->email)->send(new PaymentInformationMail($user, $item, $item->payment_method));

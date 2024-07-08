@@ -54,7 +54,6 @@ class PaymentController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     } else {
-        // 銀行振込やコンビニ払いの場合
         $item->payment_method = $paymentMethod;
         $item->save();
 
