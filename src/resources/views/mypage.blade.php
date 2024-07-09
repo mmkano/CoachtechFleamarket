@@ -25,16 +25,55 @@
         </div>
 
         <div class="tabs">
-            <a href="#" class="tab active">出品した商品</a>
-            <a href="#" class="tab">購入した商品</a>
+            <a href="#" class="tab active" data-tab="sold-items">出品した商品</a>
+            <a href="#" class="tab" data-tab="purchased-items">購入した商品</a>
         </div>
 
-        <div class="items">
+        <div id="sold-items" class="items tab-content active">
             @foreach($items as $item)
                 <div class="item">
                     <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
                 </div>
             @endforeach
         </div>
+
+        <div id="purchased-items" class="items tab-content">
+            @foreach($soldItems as $soldItem)
+                <div class="item">
+                    <img src="{{ asset('storage/' . $soldItem->item->img_url) }}" alt="{{ $soldItem->item->name }}">
+                </div>
+            @endforeach
+        </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab');
+            const soldItemsContent = document.querySelector('#sold-items');
+            const purchasedItemsContent = document.querySelector('#purchased-items');
+
+            soldItemsContent.style.display = 'grid';
+            purchasedItemsContent.style.display = 'none';
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = tab.getAttribute('data-tab');
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    if (target === 'purchased-items') {
+                        soldItemsContent.style.display = 'none';
+                        purchasedItemsContent.style.display = 'grid';
+                    } else {
+                        soldItemsContent.style.display = 'grid';
+                        purchasedItemsContent.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

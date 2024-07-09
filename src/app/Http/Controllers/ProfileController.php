@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Stripe\Stripe;
 use Stripe\Customer;
 use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -20,6 +21,8 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request)
     {
         $user = Auth::user();
+        Log::info('Profile update request received', ['user_id' => $user->id, 'request' => $request->all()]);
+
         if ($request->hasFile('profile_image')) {
             $path = $request->file('profile_image')->store('profile_images', 'public');
 
@@ -27,6 +30,7 @@ class ProfileController extends Controller
                 Storage::disk('public')->delete($user->profile_image);
             }
             $user->profile_image = $path;
+            Log::info('Profile image updated', ['path' => $path]);
         }
 
         $user->name = $request->name ?: $user->email;
@@ -34,33 +38,9 @@ class ProfileController extends Controller
         $user->address = $request->address;
         $user->building_name = $request->building_name;
 
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        if (!$user->stripe_customer_id) {
-            $customer = Customer::create([
-                'email' => $user->email,
-                'name' => $user->name,
-                'source' => $request->stripeToken,
-            ]);
-            $user->stripe_customer_id = $customer->id;
-        } else {
-            $customer = Customer::retrieve($user->stripe_customer_id);
-            $customer->source = $request->stripeToken;
-            $customer->save();
-        }
-
-        $user->credit_card_number = $request->credit_card_number;
-        $user->credit_card_expiration = $request->credit_card_expiration;
-        $user->credit_card_cvc = $request->credit_card_cvc;
-        $user->bank_account_number = $request->bank_account_number;
-        $user->bank_branch_name = $request->bank_branch_name;
-        $user->bank_branch_code = $request->bank_branch_code;
-        $user->bank_name = $request->bank_name;
-        $user->bank_account_type = $request->bank_account_type;
-        $user->bank_account_holder = $request->bank_account_holder;
-
         $user->save();
+        Log::info('User profile updated', ['user' => $user]);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'プロフィールが更新されました。');
     }
 }
