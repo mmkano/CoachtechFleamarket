@@ -44,4 +44,9 @@ class Item extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    public function soldItems()
+    {
+        return $this->hasMany(SoldItem::class);
+    }
 }

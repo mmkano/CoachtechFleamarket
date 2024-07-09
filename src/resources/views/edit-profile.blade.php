@@ -10,6 +10,15 @@
 @section('content')
     <div class="profile-edit-container">
         <h1>プロフィール設定</h1>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" id="profile-form">
             @csrf
             <div class="profile-image-section">
@@ -90,56 +99,31 @@
 @endsection
 
 @section('scripts')
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
+<script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stripe = Stripe('{{ env('STRIPE_KEY') }}');
-            const elements = stripe.elements();
-            const cardElement = elements.create('card');
-            cardElement.mount('#card-element');
+        const profileImageInput = document.getElementById('profile_image');
+        const profileImagePreview = document.getElementById('profileImagePreview');
 
-            const profileImageInput = document.getElementById('profile_image');
-            const profileImagePreview = document.getElementById('profileImagePreview');
-
-            profileImageInput.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        profileImagePreview.src = e.target.result;
-                    }
-                    reader.readAsDataURL(file);
+        profileImageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImagePreview.src = e.target.result;
                 }
-            });
+                reader.readAsDataURL(file);
+            }
+        });
 
-            const toggleSections = document.querySelectorAll('.toggle-section');
-            toggleSections.forEach(section => {
-                section.addEventListener('click', function() {
-                    const target = document.querySelector(this.getAttribute('data-target'));
-                    const icon = this.querySelector('i');
-                    target.classList.toggle('active');
-                    icon.classList.toggle('fa-times');
-                });
-            });
-
-            const form = document.getElementById('profile-form');
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                const {token, error} = await stripe.createToken(cardElement);
-                if (error) {
-                    // Handle error
-                } else {
-                    // Insert the token ID into the form so it gets submitted to the server
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.setAttribute('type', 'hidden');
-                    hiddenInput.setAttribute('name', 'stripe_token');
-                    hiddenInput.setAttribute('value', token.id);
-                    form.appendChild(hiddenInput);
-
-                    // Submit the form
-                    form.submit();
-                }
+        const toggleSections = document.querySelectorAll('.toggle-section');
+        toggleSections.forEach(section => {
+            section.addEventListener('click', function() {
+                const target = document.querySelector(this.getAttribute('data-target'));
+                const icon = this.querySelector('i');
+                target.classList.toggle('active');
+                icon.classList.toggle('fa-times');
             });
         });
+    });
     </script>
 @endsection

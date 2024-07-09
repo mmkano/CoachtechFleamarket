@@ -54,6 +54,7 @@
     color: #5f5f5f;
     font-weight: bold;
     border-bottom: 2px solid transparent;
+    margin-right: 100px;
 }
 
 .tab.active {
