@@ -115,3 +115,15 @@
 .delivery-address__header{
     margin-bottom: 0;
 }
+
+.address{
+    margin: 0px;
+}
+
+.postal-code{
+    margin-bottom: 0px;
+}
+
+.building-name{
+    margin-top: 0px;
+}

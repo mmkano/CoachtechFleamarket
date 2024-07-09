@@ -32,10 +32,10 @@
                     </div>
                     <div class="delivery-address__details">
                         @if ($user->postal_code && $user->address)
-                            <p>〒{{ $user->postal_code }}</p>
-                            <p>{{ $user->address }}</p>
+                            <p class="postal-code">〒{{ $user->postal_code }}</p>
+                            <p class="address">{{ $user->address }}</p>
                             @if ($user->building_name)
-                                <p>{{ $user->building_name }}</p>
+                                <p class="building-name">{{ $user->building_name }}</p>
                             @endif
                         @endif
                     </div>
