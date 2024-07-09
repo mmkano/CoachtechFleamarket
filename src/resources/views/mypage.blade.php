@@ -23,20 +23,19 @@
             </div>
             <button class="edit-profile-button" onclick="location.href='{{ route('profile.edit') }}'">プロフィールを編集</button>
         </div>
-
         <div class="tabs">
             <a href="#" class="tab active" data-tab="sold-items">出品した商品</a>
             <a href="#" class="tab" data-tab="purchased-items">購入した商品</a>
         </div>
-
         <div id="sold-items" class="items tab-content active">
             @foreach($items as $item)
                 <div class="item">
-                    <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                    <a href="{{ route('item.show', ['id' => $item->id]) }}">
+                        <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                    </a>
                 </div>
             @endforeach
         </div>
-
         <div id="purchased-items" class="items tab-content">
             @foreach($soldItems as $soldItem)
                 <div class="item">
