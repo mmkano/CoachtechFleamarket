@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -72,3 +74,16 @@ Route::controller(PaymentController::class)->group(function () {
 Route::get('/payment/sent', function () {
     return view('sent');
 })->name('payment.sent');
+
+Route::prefix('admin')->group(function () {
+    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminAuthController::class, 'login'])->name('admin.login');
+    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('users', [AdminController::class, 'index'])->name('admin.users');
+        Route::get('users/{id}', [AdminController::class, 'show'])->name('admin.users.show');
+        Route::delete('users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+        Route::delete('comments/{id}', [AdminController::class, 'deleteComment'])->name('admin.comments.delete');
+    });
+});
