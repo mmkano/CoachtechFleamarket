@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
             CommentSeeder::class,
             FavoriteSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

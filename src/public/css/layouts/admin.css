@@ -1,0 +1,36 @@
+.header {
+    padding: 5px;
+    background: #b197fc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    padding-bottom: 5px;
+}
+
+.logo {
+    width: 53%;
+    margin-left: 15px;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .logo {
+        width: 50%;
+    }
+}
