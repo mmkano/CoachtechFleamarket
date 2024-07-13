@@ -85,5 +85,6 @@ Route::prefix('admin')->group(function () {
         Route::get('users/{id}', [AdminController::class, 'show'])->name('admin.users.show');
         Route::delete('users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
         Route::delete('comments/{id}', [AdminController::class, 'deleteComment'])->name('admin.comments.delete');
+        Route::post('users/{id}/send-email', [AdminController::class, 'sendEmail'])->name('admin.users.send-email');
     });
 });
