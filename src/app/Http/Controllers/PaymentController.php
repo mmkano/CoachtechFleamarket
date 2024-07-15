@@ -17,51 +17,49 @@ class PaymentController extends Controller
     {
         $item = Item::findOrFail($id);
         $user = Auth::user();
-        return view('payment', ['item' => $item, 'user' => $user]);
+        return view('payment', ['item' => $item, 'user' => $user, 'amount' => $item->price * 1]);
     }
 
     public function updatePaymentMethod(Request $request, $id)
-{
-    $item = Item::findOrFail($id);
-    $request->validate([
-        'amount' => 'required|numeric|min:1',
-        'payment_method' => 'required|string',
-    ]);
+    {
+        $item = Item::findOrFail($id);
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'payment_method' => 'required|string',
+        ]);
 
-    $paymentMethod = $request->input('payment_method');
+        $paymentMethod = $request->input('payment_method');
 
-    if ($paymentMethod === 'credit_card') {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        if ($paymentMethod === 'credit_card') {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        try {
-            $paymentIntent = PaymentIntent::create([
-                'amount' => $request->amount,
-                'currency' => 'jpy',
-                'payment_method' => $request->input('payment_method_id'),
-                'confirmation_method' => 'manual',
-                'confirm' => true,
-                'return_url' => route('item.purchase', ['id' => $id]),
-            ]);
+            try {
+                $paymentIntent = PaymentIntent::create([
+                    'amount' => $request->amount,
+                    'currency' => 'jpy',
+                    'payment_method' => $request->input('payment_method_id'),
+                    'confirmation_method' => 'manual',
+                    'confirm' => true,
+                    'return_url' => route('item.purchase', ['id' => $id]),
+                ]);
 
-            $item->payment_method = 'credit_card';
+                $item->payment_method = 'credit_card';
+                $item->save();
+
+                return response()->json([
+                    'client_secret' => $paymentIntent->client_secret,
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Error creating payment intent', ['error' => $e->getMessage()]);
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        } else {
+            $item->payment_method = $paymentMethod;
             $item->save();
 
-            return response()->json([
-                'client_secret' => $paymentIntent->client_secret,
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error creating payment intent', ['error' => $e->getMessage()]);
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->route('item.purchase', ['id' => $id])->with('status', '購入が完了しました。');
         }
-    } else {
-        $item->payment_method = $paymentMethod;
-        $item->save();
-
-        return response()->json(['success' => true]);
     }
-}
-
-
 
     public function completePayment(Request $request, $id)
     {

@@ -27,7 +27,7 @@
             @endif
             <form action="{{ route('payment.update', ['id' => $item->id]) }}" method="POST" id="payment-form">
                 @csrf
-                <input type="hidden" id="amount" name="amount" value="1000">
+                <input type="hidden" id="amount" name="amount" value="{{ $amount }}">
                 <div class="form-group">
                     <div class="payment-options">
                         <div class="payment-option">
@@ -35,20 +35,20 @@
                             <label for="credit_card">クレジットカード</label>
                         </div>
                         <div id="card-details" class="card-details" style="display: none;">
-                    <div class="form-group">
-                        <label for="card-number" class="card-label">カード番号</label>
-                        <div id="card-number" class="form-control"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="card-expiry" class="card-label">有効期限</label>
-                        <div id="card-expiry" class="form-control"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="card-cvc" class="card-label">セキュリティコード</label>
-                        <div id="card-cvc" class="form-control"></div>
-                    </div>
-                    <div id="card-errors" class="card-errors" role="alert"></div>
-                </div>
+                            <div class="form-group">
+                                <label for="card-number" class="card-label">カード番号</label>
+                                <div id="card-number" class="form-control"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-expiry" class="card-label">有効期限</label>
+                                <div id="card-expiry" class="form-control"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvc" class="card-label">セキュリティコード</label>
+                                <div id="card-cvc" class="form-control"></div>
+                            </div>
+                            <div id="card-errors" class="card-errors" role="alert"></div>
+                        </div>
                         <div class="payment-option">
                             <input type="radio" id="convenience_store" name="payment_method" value="convenience_store" {{ $item->payment_method == 'convenience_store' ? 'checked' : '' }}>
                             <label for="convenience_store">コンビニ</label>
@@ -149,19 +149,20 @@
                         if (paymentIntent.error) {
                             console.error('Error confirming payment:', paymentIntent.error);
                             document.getElementById('card-errors').textContent = paymentIntent.error;
-                        } else {
-                            console.log('Payment intent confirmed:', paymentIntent.client_secret);
-                            const result = await stripe.confirmCardPayment(paymentIntent.client_secret);
-
-                            if (result.error) {
-                                console.error('Error confirming card payment:', result.error.message);
-                                document.getElementById('card-errors').textContent = result.error.message;
-                            } else {
-                                if (result.paymentIntent.status === 'succeeded') {
-                                    console.log('Payment succeeded:', result.paymentIntent.id);
-                                    window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
+                        } else if (paymentIntent.requires_action) {
+                            stripe.confirmCardPayment(paymentIntent.client_secret).then(function(result) {
+                                if (result.error) {
+                                    console.error('Error confirming card payment:', result.error.message);
+                                    document.getElementById('card-errors').textContent = result.error.message;
+                                } else {
+                                    if (result.paymentIntent.status === 'succeeded') {
+                                        console.log('Payment succeeded:', result.paymentIntent.id);
+                                        window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
+                                    }
                                 }
-                            }
+                            });
+                        } else {
+                            window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
                         }
                     }
                 } else {
@@ -178,16 +179,21 @@
                         })
                     });
 
-                    const result = await response.json();
-
-                    if (result.success) {
+                    if (response.ok) {
                         window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
                     } else {
-                        console.error('Error completing payment:', result.error);
+                        console.error('Error completing payment');
+                        alert("支払い情報の送信に失敗しました。");
                     }
                 }
             });
+
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (selectedPaymentMethod && selectedPaymentMethod.value === 'credit_card') {
+                cardDetails.style.display = 'block';
+            }
         });
     </script>
+
 </body>
 </html>
