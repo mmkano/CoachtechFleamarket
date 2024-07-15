@@ -10,6 +10,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -87,4 +88,10 @@ Route::prefix('admin')->group(function () {
         Route::delete('comments/{id}', [AdminController::class, 'deleteComment'])->name('admin.comments.delete');
         Route::post('users/{id}/send-email', [AdminController::class, 'sendEmail'])->name('admin.users.send-email');
     });
+});
+
+Route::controller(SearchController::class)->prefix('search')->group(function () {
+    Route::get('/', 'search')->name('items.search');
+    Route::get('/category', 'searchByCategory')->name('items.search.category');
+    Route::get('/condition', 'searchByCondition')->name('items.search.condition');
 });
