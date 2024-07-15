@@ -17,7 +17,9 @@
                 <div id="recommendations" class="item tab-content active">
                     <a href="{{ route('item.show', ['id' => $item->id]) }}">
                         <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                        <div class="price">¥{{ number_format($item->price) }}</div>
                     </a>
+                    <span class="name">{{ $item->name }}</span>
                 </div>
             @endforeach
         </div>
@@ -27,7 +29,9 @@
                     <div class="item">
                         <a href="{{ route('item.show', ['id' => $favorite->item->id]) }}">
                             <img src="{{ asset('storage/' . $favorite->item->img_url) }}" alt="{{ $favorite->item->name }}">
+                            <div class="price">¥{{ number_format($favorite->item->price) }}</div>
                         </a>
+                        <div class="name">{{ $favorite->item->name }}</div>
                     </div>
                 @empty
                     <p class="no-favorites">まだお気に入りはありません。</p>
