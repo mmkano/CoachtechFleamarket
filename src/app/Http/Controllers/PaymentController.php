@@ -10,6 +10,7 @@ use App\Models\Item;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use App\Mail\PaymentInformationMail;
+use App\Models\UserItemPaymentMethod;
 
 class PaymentController extends Controller
 {
@@ -17,12 +18,23 @@ class PaymentController extends Controller
     {
         $item = Item::findOrFail($id);
         $user = Auth::user();
-        return view('payment', ['item' => $item, 'user' => $user, 'amount' => $item->price * 1]);
+        $userPaymentMethod = UserItemPaymentMethod::where('user_id', $user->id)
+            ->where('item_id', $item->id)
+            ->first();
+
+        return view('payment', [
+            'item' => $item,
+            'user' => $user,
+            'amount' => $item->price * 1,
+            'userPaymentMethod' => $userPaymentMethod ? $userPaymentMethod->payment_method : null
+        ]);
     }
 
     public function updatePaymentMethod(Request $request, $id)
     {
         $item = Item::findOrFail($id);
+        $user = Auth::user();
+
         $request->validate([
             'amount' => 'required|numeric|min:1',
             'payment_method' => 'required|string',
@@ -43,8 +55,10 @@ class PaymentController extends Controller
                     'return_url' => route('item.purchase', ['id' => $id]),
                 ]);
 
-                $item->payment_method = 'credit_card';
-                $item->save();
+                UserItemPaymentMethod::updateOrCreate(
+                    ['user_id' => $user->id, 'item_id' => $item->id],
+                    ['payment_method' => 'credit_card']
+                );
 
                 return response()->json([
                     'client_secret' => $paymentIntent->client_secret,
@@ -54,16 +68,12 @@ class PaymentController extends Controller
                 return response()->json(['error' => $e->getMessage()], 500);
             }
         } else {
-            $item->payment_method = $paymentMethod;
-            $item->save();
+            UserItemPaymentMethod::updateOrCreate(
+                ['user_id' => $user->id, 'item_id' => $item->id],
+                ['payment_method' => $paymentMethod]
+            );
 
-            return redirect()->route('item.purchase', ['id' => $id])->with('status', '購入が完了しました。');
+            return redirect()->route('item.purchase', ['id' => $id])->with('status', '支払い方法が更新されました。');
         }
-    }
-
-    public function completePayment(Request $request, $id)
-    {
-        Log::info('Payment completed successfully for item ID: ' . $id);
-        return redirect()->route('item.purchase', ['id' => $id])->with('status', '購入が完了しました。');
     }
 }

@@ -9,21 +9,16 @@
     <link rel="stylesheet" href="{{ asset('css/payment.css') }}">
 </head>
 <body>
-    <header class="header">
-    </header>
+    <header class="header"></header>
 
     <main class="main">
         <div class="container">
             <h2 class="title">お支払い方法</h2>
             @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                <div class="alert alert-success">{{ session('success') }}</div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
+                <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
             <form action="{{ route('payment.update', ['id' => $item->id]) }}" method="POST" id="payment-form">
                 @csrf
@@ -31,7 +26,7 @@
                 <div class="form-group">
                     <div class="payment-options">
                         <div class="payment-option">
-                            <input type="radio" id="credit_card" name="payment_method" value="credit_card" {{ $item->payment_method == 'credit_card' ? 'checked' : '' }}>
+                            <input type="radio" id="credit_card" name="payment_method" value="credit_card" {{ $userPaymentMethod == 'credit_card' ? 'checked' : '' }}>
                             <label for="credit_card">クレジットカード</label>
                         </div>
                         <div id="card-details" class="card-details" style="display: none;">
@@ -50,16 +45,15 @@
                             <div id="card-errors" class="card-errors" role="alert"></div>
                         </div>
                         <div class="payment-option">
-                            <input type="radio" id="convenience_store" name="payment_method" value="convenience_store" {{ $item->payment_method == 'convenience_store' ? 'checked' : '' }}>
+                            <input type="radio" id="convenience_store" name="payment_method" value="convenience_store" {{ $userPaymentMethod == 'convenience_store' ? 'checked' : '' }}>
                             <label for="convenience_store">コンビニ</label>
                         </div>
                         <div class="payment-option">
-                            <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer" {{ $item->payment_method == 'bank_transfer' ? 'checked' : '' }}>
+                            <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer" {{ $userPaymentMethod == 'bank_transfer' ? 'checked' : '' }}>
                             <label for="bank_transfer">銀行振込</label>
                         </div>
                     </div>
                 </div>
-
                 <input type="hidden" name="payment_method_id" id="payment-method-id">
                 <button type="submit" class="btn btn-primary">支払いを送信</button>
             </form>
@@ -157,16 +151,15 @@
                                 } else {
                                     if (result.paymentIntent.status === 'succeeded') {
                                         console.log('Payment succeeded:', result.paymentIntent.id);
-                                        window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
+                                        window.location.href = "{{ route('item.complete', ['id' => $item->id]) }}";
                                     }
                                 }
                             });
                         } else {
-                            window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
+                            window.location.href = "{{ route('item.complete', ['id' => $item->id]) }}";
                         }
                     }
                 } else {
-                    // 銀行振込やコンビニ払いの場合
                     const response = await fetch("{{ route('payment.update', ['id' => $item->id]) }}", {
                         method: 'POST',
                         headers: {
@@ -194,6 +187,5 @@
             }
         });
     </script>
-
 </body>
 </html>

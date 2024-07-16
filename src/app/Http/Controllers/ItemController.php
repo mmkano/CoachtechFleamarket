@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentInformationMail;
 use Illuminate\Support\Facades\Log;
+use App\Models\UserItemPaymentMethod;
 
 class ItemController extends Controller
 {
@@ -33,14 +34,21 @@ class ItemController extends Controller
         }
 
         $item = Item::findOrFail($id);
-
         $user = Auth::user();
-        Log::info('User Payment Method:', ['payment_method' => $item->payment_method]);
+
+        $userPaymentMethod = UserItemPaymentMethod::where('user_id', $user->id)
+            ->where('item_id', $item->id)
+            ->first();
+
         if (is_null($user->postal_code) || is_null($user->address)) {
             return redirect()->route('profile.edit')->with('error', '配送先を設定してください。');
         }
 
-        return view('purchase', ['item' => $item, 'user' => $user]);
+        return view('purchase', [
+            'item' => $item,
+            'user' => $user,
+            'payment_method' => $userPaymentMethod ? $userPaymentMethod->payment_method : null
+        ]);
     }
 
     public function complete()
@@ -56,7 +64,6 @@ class ItemController extends Controller
         $request->merge([
             'postal_code' => $user->postal_code,
             'address' => $user->address,
-            'payment_method' => $item->payment_method,
         ]);
 
         $request->validate([
@@ -74,11 +81,16 @@ class ItemController extends Controller
         $soldItem->user_id = $user->id;
         $soldItem->save();
 
-        if ($item->payment_method == 'credit_card') {
+        UserItemPaymentMethod::updateOrCreate(
+            ['user_id' => $user->id, 'item_id' => $item->id],
+            ['payment_method' => $request->payment_method]
+        );
+
+        if ($request->payment_method == 'credit_card') {
             return redirect()->route('item.complete', ['id' => $id])->with('status', '購入が完了しました。');
-        } elseif ($item->payment_method == 'bank_transfer' || $item->payment_method == 'convenience_store') {
-            Mail::to($user->email)->send(new PaymentInformationMail($user, $item, $item->payment_method));
-            return redirect()->route('payment.sent');
+        } elseif ($request->payment_method == 'bank_transfer' || $request->payment_method == 'convenience_store') {
+            Mail::to($user->email)->send(new PaymentInformationMail($user, $item, $request->payment_method));
+            return redirect()->route('payment.sent')->with('status', '購入手続きの詳細をメールで送信しました。');
         }
     }
 

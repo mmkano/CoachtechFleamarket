@@ -56,12 +56,12 @@
                 <div class="summary-item">
                     <p class="summary-label">支払い方法</p>
                     <p class="summary-value-method">
-                        @if($item->payment_method)
-                            @if($item->payment_method == 'credit_card')
+                        @if($payment_method)
+                            @if($payment_method == 'credit_card')
                                 クレジットカード
-                            @elseif($item->payment_method == 'bank_transfer')
+                            @elseif($payment_method == 'bank_transfer')
                                 銀行振込
-                            @elseif($item->payment_method == 'convenience_store')
+                            @elseif($payment_method == 'convenience_store')
                                 コンビニ払い
                             @endif
                         @endif
@@ -70,6 +70,7 @@
             </div>
             <form action="{{ route('item.confirm-purchase', ['id' => $item->id]) }}" method="POST">
                 @csrf
+                <input type="hidden" name="payment_method" value="{{ $payment_method }}">
                 <button type="submit" class="buy-button">購入する</button>
             </form>
         </div>
