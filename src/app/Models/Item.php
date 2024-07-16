@@ -49,4 +49,9 @@ class Item extends Model
     {
         return $this->hasMany(SoldItem::class);
     }
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(UserItemPaymentMethod::class);
+    }
 }
