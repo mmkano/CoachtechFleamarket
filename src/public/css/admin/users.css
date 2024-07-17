@@ -49,8 +49,39 @@
     display: inline-block;
     cursor: pointer;
     font-size: 14px;
-    display: block;
     margin: 0 auto;
     text-align: center;
-    width: 30%;
+    width: auto;
+    white-space: nowrap;
+}
+
+.details{
+    text-align: center !important;
+    word-break: break-word;
+}
+
+
+@media (max-width: 768px) {
+    .user-list-container {
+        padding: 10px;
+    }
+
+    .user-list-container h1 {
+        font-size: 20px;
+    }
+
+    .user-table {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .user-table th, .user-table td {
+        padding: 8px;
+    }
+
+    .btn {
+        width: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
 }

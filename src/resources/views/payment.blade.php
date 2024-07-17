@@ -151,12 +151,12 @@
                                 } else {
                                     if (result.paymentIntent.status === 'succeeded') {
                                         console.log('Payment succeeded:', result.paymentIntent.id);
-                                        window.location.href = "{{ route('item.complete', ['id' => $item->id]) }}";
+                                        window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
                                     }
                                 }
                             });
                         } else {
-                            window.location.href = "{{ route('item.complete', ['id' => $item->id]) }}";
+                            window.location.href = "{{ route('item.purchase', ['id' => $item->id]) }}";
                         }
                     }
                 } else {

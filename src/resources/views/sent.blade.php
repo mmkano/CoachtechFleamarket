@@ -12,11 +12,11 @@
     </header>
 
     <main class="main">
-    <div class="payment-sent-container">
-        <h1>支払い情報が送信されました</h1>
-        <p>支払い情報がメールで送信されました<br>ご確認ください。</p>
-        <a href="{{ route('home') }}" class="btn btn-primary">戻る</a>
-    </div>
+        <div class="payment-sent-container">
+            <h1>支払い情報が<br>メールに送信されました</h1>
+            <a href="{{ route('home') }}" class="btn btn-primary">戻る</a>
+        </div>
     </main>
 </body>
 </html>
+

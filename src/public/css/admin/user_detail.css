@@ -17,6 +17,7 @@
 .user-info h2 {
     font-size: 24px;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .actions {
@@ -218,6 +219,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -233,4 +235,49 @@
 
 .btn-danger:hover {
     background-color: #e04343;
+}
+
+@media (max-width: 768px) {
+    .user-detail-container {
+        width: 90%;
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 30px 0;
+    }
+
+    .user-info h2 {
+        font-size: 20px;
+        margin: 0 auto;
+    }
+
+    .actions {
+        gap: 5px;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+
+    .comments-section h3 {
+        font-size: 18px;
+    }
+
+    .comment-item {
+        margin-left: 5px;
+    }
+
+    .comment-item p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        text-align: center;
+        margin-left: 5px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
 }

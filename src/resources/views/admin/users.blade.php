@@ -20,7 +20,7 @@
                 @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->name ?? $user->email }}</td>
-                        <td>
+                        <td class="details">
                             <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info">詳細</a>
                         </td>
                     </tr>

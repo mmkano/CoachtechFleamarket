@@ -31,17 +31,19 @@
                     </div>
                 </div>
             </form>
-            @if(Auth::check())
-                <a href="{{ route('logout') }}" class="nav-link logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
-                <a href="{{ route('mypage') }}" class="nav-link">マイページ</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="nav-link login">ログイン</a>
-                <a href="{{ route('register') }}" class="nav-link">会員登録</a>
-            @endif
-            <a href="{{ route('create') }}" class="nav-link sell">出品</a>
+            <nav class="nav">
+                @if(Auth::check())
+                    <a href="{{ route('logout') }}" class="nav-link logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
+                    <a href="{{ route('mypage') }}" class="nav-link">マイページ</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link login">ログイン</a>
+                    <a href="{{ route('register') }}" class="nav-link">会員登録</a>
+                @endif
+                <a href="{{ route('create') }}" class="nav-link sell">出品</a>
+            </nav>
         </div>
     </header>
 

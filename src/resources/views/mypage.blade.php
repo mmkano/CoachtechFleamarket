@@ -32,14 +32,20 @@
                 <div class="item">
                     <a href="{{ route('item.show', ['id' => $item->id]) }}">
                         <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                        <div class="price">¥{{ number_format($item->price) }}</div>
                     </a>
+                    <span class="name">{{ $item->name }}</span>
                 </div>
             @endforeach
         </div>
         <div id="purchased-items" class="items tab-content">
             @foreach($soldItems as $soldItem)
                 <div class="item">
-                    <img src="{{ asset('storage/' . $soldItem->item->img_url) }}" alt="{{ $soldItem->item->name }}">
+                    <a href="{{ route('item.show', ['id' => $soldItem->item->id]) }}">
+                        <img src="{{ asset('storage/' . $soldItem->item->img_url) }}" alt="{{ $soldItem->item->name }}">
+                        <div class="price">¥{{ number_format($soldItem->item->price) }}</div>
+                    </a>
+                    <span class="name">{{ $soldItem->item->name }}</span>
                 </div>
             @endforeach
         </div>
@@ -53,7 +59,7 @@
             const soldItemsContent = document.querySelector('#sold-items');
             const purchasedItemsContent = document.querySelector('#purchased-items');
 
-            soldItemsContent.style.display = 'grid';
+            soldItemsContent.style.display = 'flex';
             purchasedItemsContent.style.display = 'none';
 
             tabs.forEach(tab => {
@@ -66,9 +72,9 @@
 
                     if (target === 'purchased-items') {
                         soldItemsContent.style.display = 'none';
-                        purchasedItemsContent.style.display = 'grid';
+                        purchasedItemsContent.style.display = 'flex';
                     } else {
-                        soldItemsContent.style.display = 'grid';
+                        soldItemsContent.style.display = 'flex';
                         purchasedItemsContent.style.display = 'none';
                     }
                 });
