@@ -14,7 +14,7 @@
     margin-bottom: 20px;
 }
 
-.profile-image{
+.profile-image {
     margin-right: 30px;
 }
 
@@ -79,13 +79,15 @@
 .submit-button:hover {
     background-color: #ff4b4b;
 }
+
 .toggle-section {
     align-items: center;
     cursor: pointer;
     padding: 10px 0;
 }
 
-.toggle-section .fa-plus-circle, .toggle-section .fa-minus-circle {
+.toggle-section .fa-plus-circle,
+.toggle-section .fa-minus-circle {
     font-size: 20px;
 }
 
@@ -98,6 +100,20 @@
     display: block;
 }
 
-.fas{
+.fas {
     margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .profile-edit-container {
+        padding: 20px;
+    }
+
+    .file-input-label {
+        font-size: 15px;
+    }
+
+    .profile-image img {
+        margin-right: 0;
+    }
 }

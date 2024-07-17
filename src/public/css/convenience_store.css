@@ -109,7 +109,7 @@ body {
 .payment-info {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* 各項目間の空間を設定 */
+    gap: 10px;
     margin-bottom: 20px;
 }
 

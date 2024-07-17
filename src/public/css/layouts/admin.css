@@ -4,12 +4,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0;
-    padding-bottom: 5px;
 }
 
 .logo {
-    width: 53%;
+    width: auto;
+    max-width: 200px;
+    height: auto;
     margin-left: 15px;
 }
 
@@ -23,6 +23,7 @@
     text-align: center;
     text-decoration: none;
     margin-right: 10px;
+    white-space: nowrap;
 }
 
 @media screen and (max-width: 768px) {
@@ -31,6 +32,11 @@
     }
 
     .logo {
-        width: 50%;
+        max-width: 150px;
+    }
+
+    .logout-button {
+        font-size: 18px;
+        padding: 8px 16px;
     }
 }

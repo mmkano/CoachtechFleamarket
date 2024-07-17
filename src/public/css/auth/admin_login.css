@@ -74,6 +74,15 @@
 }
 
 @media screen and (max-width: 768px) {
+    .header {
+        padding: 10px;
+        padding-left: 0;
+    }
+
+    .logo {
+        width: 50%;
+    }
+
     .login-box {
         width: 90%;
         padding: 10px;

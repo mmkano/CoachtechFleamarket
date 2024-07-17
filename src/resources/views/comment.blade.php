@@ -8,88 +8,104 @@
 @endsection
 
 @section('content')
-    <div class="info-container">
-        <div class="item-detail">
-            <div class="item-image">
-                <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
-            </div>
-            <div class="item-info">
-                <h1>{{ $item->name }}</h1>
-                <span>ブランド名</span>
-                <p class="price">¥{{ number_format($item->price) }}(値段)</p>
-                <div class="icons">
-                    <div class="icon">
-                        <i class="far fa-star"></i>
-                        <span>3</span>
-                    </div>
-                    <div class="icon">
-                        <i class="far fa-comment"></i>
-                        <span>{{ $item->comments->unique('user_id')->count() }}</span>
-                    </div>
-                </div>
-                <div class="comment-list">
-                    @foreach($item->comments->unique('user_id') as $comment)
-                        <div class="comment-item">
-                            <div class="comment-author {{ ($loop->index + 1) % 3 == 0 ? 'reverse' : '' }}">
-                                <div class="author-avatar">
-                                @if($comment->user->profile_image)
-                                        <img src="{{ asset('storage/' . $comment->user->profile_image) }}" alt="ユーザー画像">
-                                    @else
-                                        <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
-                                    @endif
-                                </div>
-                                <span class="author-name">{{ $comment->user->name }}</span>
-                            </div>
-                            <div class="comment-content">{{ $comment->comment }}
-                                @if(auth()->id() === $comment->user_id || auth()->user()->is_admin)
-                                    <button class="delete-button" onclick="confirmDelete({{ $item->id }}, {{ $comment->id }})">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <form action="{{ route('comments.submit', ['id' => $item->id]) }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="comment">商品のコメント</label>
-                        <textarea id="comment" name="comment" rows="4" required></textarea>
-                    </div>
-                    <button type="submit" class="buy-button">コメントを送信する</button>
-                </form>
-            </div>
+<div class="info-container">
+    <div class="item-detail">
+        <div class="item-image">
+            <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
         </div>
-    </div>
-
-    <!-- モーダルダイアログ -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <h1>コメントの削除</h1>
-            <p>本当にこのコメントを削除してよろしいですか？</p>
-            <form id="deleteForm" method="POST">
-                @csrf
-                @method('DELETE')
-                <div class="modal-buttons">
-                    <button type="submit" class="confirm-delete-button">削除する</button>
-                    <button type="button" class="cancel-button" onclick="closeModal()">キャンセル</button>
+        <div class="item-info">
+            <h1>{{ $item->name }}</h1>
+            <span>ブランド名</span>
+            <p class="price">¥{{ number_format($item->price) }}(値段)</p>
+            <div class="icons">
+                <div class="icon">
+                    <form class="star-form" action="{{ route('favorite.toggle', ['item' => $item->id]) }}" method="POST">
+                        @csrf
+                        @auth
+                        @if(Auth::user()->favorites->contains('item_id', $item->id))
+                        @method('DELETE')
+                        <button type="submit" class="favorite-button">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        @else
+                        <button type="submit" class="favorite-button">
+                            <i class="far fa-star"></i>
+                        </button>
+                        @endif
+                        @else
+                        <i class="far fa-star"></i>
+                        @endauth
+                        <span class="icon-count">{{ $item->favorites->count() }}</span>
+                    </form>
                 </div>
+                <div class="icon">
+                    <a href="{{ route('comments.show', ['id' => $item->id]) }}"><i class="far fa-comment"></i></a>
+                    <span class="icon-count">{{ $item->comments->count() }}</span>
+                </div>
+            </div>
+            <div class="comment-list">
+                @foreach($item->comments->unique('user_id') as $comment)
+                <div class="comment-item">
+                    <div class="comment-author {{ ($loop->index + 1) % 3 == 0 ? 'reverse' : '' }}">
+                        <div class="author-avatar">
+                            @if($comment->user->profile_image)
+                            <img src="{{ asset('storage/' . $comment->user->profile_image) }}" alt="ユーザー画像">
+                            @else
+                            <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
+                            @endif
+                        </div>
+                        <span class="author-name">{{ $comment->user->name }}</span>
+                    </div>
+                    <div class="comment-content">{{ $comment->comment }}
+                        @if(auth()->id() === $comment->user_id || auth()->user()->is_admin)
+                        <button class="delete-button" onclick="confirmDelete({{ $item->id }}, {{ $comment->id }})">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <form action="{{ route('comments.submit', ['id' => $item->id]) }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="comment">商品のコメント</label>
+                    <textarea id="comment" name="comment" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="buy-button">コメントを送信する</button>
             </form>
         </div>
     </div>
+</div>
+
+<!-- モーダルダイアログ -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        <h1>コメントの削除</h1>
+        <p>本当にこのコメントを削除してよろしいですか？</p>
+        <form id="deleteForm" method="POST">
+            @csrf
+            @method('DELETE')
+            <div class="modal-buttons">
+                <button type="submit" class="confirm-delete-button">削除する</button>
+                <button type="button" class="cancel-button" onclick="closeModal()">キャンセル</button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
-    <script>
-        function confirmDelete(itemId, commentId) {
-            const form = document.getElementById('deleteForm');
-            form.action = `/item/${itemId}/comments/${commentId}`;
-            document.getElementById('deleteModal').style.display = 'block';
-        }
+<script>
+    function confirmDelete(itemId, commentId) {
+        const form = document.getElementById('deleteForm');
+        form.action = `/item/${itemId}/comments/${commentId}`;
+        document.getElementById('deleteModal').style.display = 'block';
+    }
 
-        function closeModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-        }
-    </script>
+    function closeModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+</script>
 @endsection
