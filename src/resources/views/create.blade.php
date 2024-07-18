@@ -48,6 +48,15 @@
                         <option value="6">全体的に状態が悪い</option>
                     </select>
                 </div>
+                <div class="input-group">
+                    <label for="brand_id">ブランド <span class="optional">任意</span></label>
+                    <select id="brand_id" name="brand_id">
+                        <option value="" disabled selected>選択してください</option>
+                        @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="ttl">
                     <h2>商品名と説明</h2>
                 </div>
