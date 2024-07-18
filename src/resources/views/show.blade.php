@@ -15,7 +15,7 @@
             </div>
             <div class="item-info">
                 <h1>{{ $item->name }}</h1>
-                <span>ブランド名</span>
+                <span>{{ $item->brand ? $item->brand->name : '' }}</span>
                 <p class="price">¥{{ number_format($item->price) }}(値段)</p>
                 <div class="icons">
                     <div class="icon">
@@ -33,7 +33,9 @@
                                     </button>
                                 @endif
                             @else
+                            <a href="{{ route('login') }}">
                                 <i class="far fa-star"></i>
+                            </a>
                             @endauth
                             <span class="icon-count">{{ $item->favorites->count() }}</span>
                         </form>
