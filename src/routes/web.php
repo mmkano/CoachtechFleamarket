@@ -94,4 +94,5 @@ Route::controller(SearchController::class)->prefix('search')->group(function () 
     Route::get('/', 'search')->name('items.search');
     Route::get('/category', 'searchByCategory')->name('items.search.category');
     Route::get('/condition', 'searchByCondition')->name('items.search.condition');
+    Route::get('/brand', 'searchByBrand')->name('items.search.brand');
 });
