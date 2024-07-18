@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
 use App\Models\SoldItem;
+use App\Models\Brand;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentInformationMail;
@@ -23,7 +24,7 @@ class ItemController extends Controller
 
     public function show($id)
     {
-        $item = Item::with('favorites', 'comments')->findOrFail($id);
+        $item = Item::with('favorites', 'comments', 'brand')->findOrFail($id);
         return view('show', ['item' => $item]);
     }
 
@@ -41,7 +42,7 @@ class ItemController extends Controller
             ->first();
 
         if (is_null($user->postal_code) || is_null($user->address)) {
-            return redirect()->route('profile.edit')->with('error', '配送先を設定してください。');
+            return redirect()->route('profile.edit')->with('error', '購入するには住所の登録が必要です。');
         }
 
         return view('purchase', [
@@ -66,7 +67,7 @@ class ItemController extends Controller
             'address' => $user->address,
         ]);
 
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'postal_code' => 'required|string|max:10',
             'address' => 'required|string|max:255',
             'payment_method' => 'required|string',
@@ -75,6 +76,13 @@ class ItemController extends Controller
             'address.required' => '住所を登録してください。',
             'payment_method.required' => '支払い方法を選択してください。',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('item.purchase', ['id' => $id])
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $soldItem = new SoldItem();
         $soldItem->item_id = $item->id;
@@ -121,7 +129,9 @@ class ItemController extends Controller
     {
         $categories = CategoryItem::all();
         $conditions = Condition::all();
-        return view('create', compact('categories', 'conditions'));
+        $brands = Brand::all();
+
+        return view('create', compact('categories', 'conditions', 'brands'));
     }
 
     public function store(Request $request)
@@ -141,6 +151,7 @@ class ItemController extends Controller
             'description' => 'required|string',
             'category_item_id' => 'required|integer',
             'condition_id' => 'required|integer',
+            'brand_id' => 'nullable|integer',
         ]);
 
         $path = $request->file('img_url')->store('images', 'public');
@@ -153,6 +164,7 @@ class ItemController extends Controller
         $item->user_id = Auth::id();
         $item->category_item_id = $request->category_item_id;
         $item->condition_id = $request->condition_id;
+        $item->brand_id = $request->brand_id;
         $item->save();
 
         return redirect()->route('home')->with('status', '商品を出品しました。');
