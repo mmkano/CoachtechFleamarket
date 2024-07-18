@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device=width, initial-scale=1.0">
     <title>@yield('title', 'COACHTECH')</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/layouts/common.css') }}">
@@ -23,6 +23,9 @@
                     <div class="search-condition">
                         <a href="{{ route('items.search.condition') }}">商品状態からさがす</a>
                     </div>
+                    <div class="search-brand">
+                        <a href="{{ route('items.search.brand') }}">ブランドからさがす</a>
+                    </div>
                     <div class="price-range">
                         <input type="number" name="min_price" placeholder="¥最小価格" value="{{ request('min_price') }}">
                         <span>-</span>
@@ -42,7 +45,12 @@
                     <a href="{{ route('login') }}" class="nav-link login">ログイン</a>
                     <a href="{{ route('register') }}" class="nav-link">会員登録</a>
                 @endif
-                <a href="{{ route('create') }}" class="nav-link sell">出品</a>
+                
+                @auth
+                    <a href="{{ route('create') }}" class="nav-link sell">出品</a>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link sell">出品</a>
+                @endauth
             </nav>
         </div>
     </header>
