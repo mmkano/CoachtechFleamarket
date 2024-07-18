@@ -18,6 +18,7 @@ class Item extends Model
         'category_item_id',
         'condition_id',
         'payment_method',
+        'brand_id',
     ];
 
     public function categoryItem()
@@ -53,5 +54,10 @@ class Item extends Model
     public function paymentMethods()
     {
         return $this->hasMany(UserItemPaymentMethod::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }

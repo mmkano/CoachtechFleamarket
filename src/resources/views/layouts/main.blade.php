@@ -23,6 +23,9 @@
                     <div class="search-condition">
                         <a href="{{ route('items.search.condition') }}">商品状態からさがす</a>
                     </div>
+                    <div class="search-brand">
+                        <a href="{{ route('items.search.brand') }}">ブランドからさがす</a>
+                    </div>
                     <div class="price-range">
                         <input type="number" name="min_price" placeholder="¥最小価格" value="{{ request('min_price') }}">
                         <span>-</span>

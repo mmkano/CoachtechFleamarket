@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
+use App\Models\Brand;
 
 class SearchController extends Controller
 {
@@ -13,24 +14,31 @@ class SearchController extends Controller
     {
         $query = Item::query();
         $searchTerm = $request->input('search');
-        $selectedCategory = null;
-        $selectedCondition = null;
+        $selectedCategory = $request->input('category');
+        $selectedCondition = $request->input('condition');
+        $selectedBrands = $request->input('brands', []);
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
 
-        if ($request->filled('search')) {
-            $query->where('name', 'LIKE', '%' . $searchTerm . '%')
-                  ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+        if ($searchTerm) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', '%' . $searchTerm . '%')
+                      ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+            });
         }
 
-        if ($request->filled('category')) {
-            $query->where('category_item_id', $request->input('category'));
-            $selectedCategory = CategoryItem::find($request->input('category'))->name;
+        if ($selectedCategory) {
+            $query->where('category_item_id', $selectedCategory);
+            $selectedCategory = CategoryItem::find($selectedCategory)->name;
         }
 
-        if ($request->filled('condition')) {
-            $query->where('condition_id', $request->input('condition'));
-            $selectedCondition = Condition::find($request->input('condition'))->name;
+        if ($selectedCondition) {
+            $query->where('condition_id', $selectedCondition);
+            $selectedCondition = Condition::find($selectedCondition)->name;
+        }
+
+        if (!empty($selectedBrands)) {
+            $query->whereIn('brand_id', $selectedBrands);
         }
 
         if ($minPrice) {
@@ -42,8 +50,11 @@ class SearchController extends Controller
         }
 
         $items = $query->get();
+        $categories = CategoryItem::all();
+        $conditions = Condition::all();
+        $brands = Brand::all();
 
-        return view('search_results', compact('items', 'searchTerm', 'selectedCategory', 'selectedCondition', 'minPrice', 'maxPrice'));
+        return view('search_results', compact('items', 'searchTerm', 'selectedCategory', 'selectedCondition', 'selectedBrands', 'minPrice', 'maxPrice', 'categories', 'conditions', 'brands'));
     }
 
     public function searchByCategory()
@@ -56,5 +67,11 @@ class SearchController extends Controller
     {
         $conditions = Condition::all();
         return view('search_condition', compact('conditions'));
+    }
+
+    public function searchByBrand()
+    {
+        $brands = Brand::all();
+        return view('search_brand', compact('brands'));
     }
 }

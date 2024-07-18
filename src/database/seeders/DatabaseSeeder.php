@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             FavoriteSeeder::class,
             AdminSeeder::class,
+            BrandSeeder::class,
         ]);
     }
 }
