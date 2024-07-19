@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\Comment;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\SendEmailRequest;
 use App\Mail\AdminNotificationMail;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -46,13 +46,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'コメントが削除されました。');
     }
 
-    public function sendEmail(Request $request, $id)
+    public function sendEmail(SendEmailRequest $request, $id)
     {
-        $request->validate([
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
-
         $user = User::findOrFail($id);
         Mail::to($user->email)->send(new AdminNotificationMail($request->subject, $request->message));
         return redirect()->back()->with('success', 'メールが送信されました。');

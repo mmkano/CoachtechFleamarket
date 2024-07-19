@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
 use App\Models\SoldItem;
 use App\Models\Brand;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\PaymentInformationMail;
-use Illuminate\Support\Facades\Log;
 use App\Models\UserItemPaymentMethod;
+use App\Http\Requests\ConfirmPurchaseRequest;
+use App\Http\Requests\UpdateAddressRequest;
+use App\Http\Requests\StoreItemRequest;
+use App\Mail\PaymentInformationMail;
 
 class ItemController extends Controller
 {
@@ -57,32 +60,14 @@ class ItemController extends Controller
         return view('complete');
     }
 
-    public function confirmPurchase(Request $request, $id)
+    public function confirmPurchase(ConfirmPurchaseRequest $request, $id)
     {
         $user = Auth::user();
         $item = Item::findOrFail($id);
 
-        $request->merge([
-            'postal_code' => $user->postal_code,
-            'address' => $user->address,
-        ]);
-
-        $validator = \Validator::make($request->all(), [
-            'postal_code' => 'required|string|max:10',
-            'address' => 'required|string|max:255',
-            'payment_method' => 'required|string',
-        ], [
-            'postal_code.required' => '郵便番号を登録してください。',
-            'address.required' => '住所を登録してください。',
-            'payment_method.required' => '支払い方法を選択してください。',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->route('item.purchase', ['id' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $postal_code = $request->input('postal_code');
+        $address = $request->input('address');
+        $payment_method = $request->input('payment_method');
 
         $soldItem = new SoldItem();
         $soldItem->item_id = $item->id;
@@ -108,14 +93,8 @@ class ItemController extends Controller
         return view('address', ['item' => $item]);
     }
 
-    public function updateAddress(Request $request, $id)
+    public function updateAddress(UpdateAddressRequest $request, $id)
     {
-        $request->validate([
-            'postal_code' => 'required|string|max:10',
-            'address' => 'required|string|max:255',
-            'building_name' => 'nullable|string|max:255',
-        ]);
-
         $user = Auth::user();
         $user->postal_code = $request->postal_code;
         $user->address = $request->address;
@@ -134,7 +113,7 @@ class ItemController extends Controller
         return view('create', compact('categories', 'conditions', 'brands'));
     }
 
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'ログインしてください。');
@@ -144,15 +123,6 @@ class ItemController extends Controller
         $input['price'] = str_replace('¥', '', $input['price']);
 
         $request->merge($input);
-        $request->validate([
-            'img_url' => 'required|image',
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'required|string',
-            'category_item_id' => 'required|integer',
-            'condition_id' => 'required|integer',
-            'brand_id' => 'nullable|integer',
-        ]);
 
         $path = $request->file('img_url')->store('images', 'public');
 

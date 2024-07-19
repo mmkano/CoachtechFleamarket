@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Models\Item;
+use App\Models\UserItemPaymentMethod;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
-use App\Mail\PaymentInformationMail;
-use App\Models\UserItemPaymentMethod;
 
 class PaymentController extends Controller
 {
@@ -65,7 +63,7 @@ class PaymentController extends Controller
                 ]);
             } catch (\Exception $e) {
                 Log::error('Error creating payment intent', ['error' => $e->getMessage()]);
-                return response()->json(['error' => $e->getMessage()], 500);
+                return redirect()->route('payment.change', ['id' => $id])->withErrors(['error' => $e->getMessage()]);
             }
         } else {
             UserItemPaymentMethod::updateOrCreate(

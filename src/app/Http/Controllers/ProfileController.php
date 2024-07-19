@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Stripe\Stripe;
-use Stripe\Customer;
-use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -41,6 +39,6 @@ class ProfileController extends Controller
         $user->save();
         Log::info('User profile updated', ['user' => $user]);
 
-        return redirect()->route('home')->with('success', 'プロフィールが更新されました。');
+        return redirect()->route('mypage')->with('success', 'プロフィールが更新されました。');
     }
 }
