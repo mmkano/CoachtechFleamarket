@@ -46,6 +46,17 @@
     margin-top: 100px;
 }
 
+.alert li{
+    list-style: none;
+    padding: 0;
+    color: red;
+    font-weight: bold;
+}
+
+.alert ul{
+    padding: 0;
+}
+
 @media (max-width: 768px) {
     .address-container {
         width: 90%;

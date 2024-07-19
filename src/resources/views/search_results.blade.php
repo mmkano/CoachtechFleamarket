@@ -18,7 +18,7 @@
 
                 <div class="filter-group">
                     <div class="filter-header" onclick="toggleFilter('search')">
-                        <label for="search">除外キーワード</label>
+                        <label for="search">キーワード</label>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="filter-body" id="search" style="display:none;">

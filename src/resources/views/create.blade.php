@@ -14,6 +14,21 @@
     <main>
         <div class="create-item-container">
             <h1>商品の出品</h1>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <form action="{{ route('item.store') }}" method="POST" enctype="multipart/form-data" onsubmit="removeYenSymbol()">
                 @csrf
                 <div class="input-group">

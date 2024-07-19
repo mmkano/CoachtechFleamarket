@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SubmitCommentRequest;
 use App\Models\Comment;
 use App\Models\Item;
-use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -20,12 +20,8 @@ class CommentController extends Controller
         return view('comment', compact('item', 'comments'));
     }
 
-    public function submitComment(Request $request, $id)
+    public function submitComment(SubmitCommentRequest $request, $id)
     {
-        $request->validate([
-            'comment' => 'required|string|max:1000',
-        ]);
-
         Comment::create([
             'user_id' => auth()->id(),
             'item_id' => $id,

@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="comment-list">
-                @foreach($item->comments->unique('user_id') as $comment)
+                @foreach($item->comments as $comment)
                 <div class="comment-item">
                     <div class="comment-author {{ ($loop->index + 1) % 3 == 0 ? 'reverse' : '' }}">
                         <div class="author-avatar">
@@ -57,6 +57,7 @@
                         <span class="author-name">{{ $comment->user->name }}</span>
                     </div>
                     <div class="comment-content">{{ $comment->comment }}
+                        <div class="comment-date">{{ $comment->created_at->format('Y/m/d H:i:s') }}</div>
                         @if(auth()->id() === $comment->user_id || auth()->user()->is_admin)
                         <button class="delete-button" onclick="confirmDelete({{ $item->id }}, {{ $comment->id }})">
                             <i class="far fa-trash-alt"></i>
@@ -70,8 +71,23 @@
                 @csrf
                 <div class="form-group">
                     <label for="comment">商品のコメント</label>
-                    <textarea id="comment" name="comment" rows="4" required></textarea>
+                    <textarea id="comment" name="comment" rows="4"></textarea>
                 </div>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <button type="submit" class="buy-button">コメントを送信する</button>
             </form>
         </div>
