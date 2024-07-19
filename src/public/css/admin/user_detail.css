@@ -38,8 +38,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding: 10px;
+    padding-bottom: 7px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
@@ -176,6 +177,7 @@
 
 .modal p {
     margin-bottom: 20px;
+    text-align: justify;
 }
 
 .modal-buttons {
@@ -237,6 +239,22 @@
     background-color: #e04343;
 }
 
+.comment-date{
+    font-size: 10px !important;
+    padding-top: 13px;
+}
+
+.alert li{
+    list-style: none;
+    padding: 0;
+    color: red;
+    font-weight: bold;
+}
+
+.alert ul{
+    padding: 0;
+}
+
 @media (max-width: 768px) {
     .user-detail-container {
         width: 90%;
@@ -269,7 +287,6 @@
 
     .comment-item p {
         font-size: 14px;
-        margin-bottom: 10px;
     }
 
     .btn {

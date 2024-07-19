@@ -147,6 +147,17 @@
     padding: 2px 4px;
 }
 
+.alert li{
+    list-style: none;
+    padding: 0;
+    color: red;
+    font-weight: bold;
+}
+
+.alert ul{
+    padding: 0;
+}
+
 @media (max-width: 768px) {
     .create-item-container {
         width: 90%;

@@ -14,12 +14,6 @@
     <main class="main">
         <div class="container">
             <h2 class="title">お支払い方法</h2>
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
             <form action="{{ route('payment.update', ['id' => $item->id]) }}" method="POST" id="payment-form">
                 @csrf
                 <input type="hidden" id="amount" name="amount" value="{{ $amount }}">

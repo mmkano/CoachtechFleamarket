@@ -20,7 +20,10 @@
             <h3>コメント一覧</h3>
             @forelse($user->comments as $comment)
                 <div class="comment-item">
-                    <p>{{ $comment->comment }}</p>
+                    <div class="comment-details">
+                        <p>{{ $comment->comment }}</p>
+                        <p class="comment-date">{{ $comment->created_at->format('Y/m/d H:i:s') }}</p>
+                    </div>
                     <button class="btn btn-danger" onclick="confirmDeleteComment({{ $comment->id }})">削除</button>
                 </div>
             @empty
@@ -29,7 +32,7 @@
         </div>
     </div>
 
-    <div id="emailModal" class="modal">
+    <div id="emailModal" class="modal" @if ($errors->any()) style="display: block;" @endif>
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>メール送信</h2>
@@ -41,12 +44,27 @@
                 </div>
                 <div class="form-group">
                     <label for="subject">件名</label>
-                    <input type="text" id="subject" name="subject" required>
+                    <input type="text" id="subject" name="subject" value="{{ old('subject') }}">
                 </div>
                 <div class="form-group">
                     <label for="message">本文</label>
-                    <textarea id="message" name="message" rows="4" required></textarea>
+                    <textarea id="message" name="message" rows="4">{{ old('message') }}</textarea>
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <button type="submit" class="btn btn-primary">送信</button>
             </form>
         </div>
