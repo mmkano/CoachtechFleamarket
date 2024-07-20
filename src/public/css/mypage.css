@@ -71,8 +71,8 @@
 }
 
 .item img {
-    width: 100%;
-    height: auto;
+    width: 200px;
+    height: 200px;
     display: block;
     object-fit: cover;
 }
@@ -116,7 +116,9 @@
     }
 
     .profile-name h2 {
-        margin: 0;
+        margin-top: 30px;
+        font-size: 20px;
+        white-space: nowrap;
     }
 
     .profile__inner {
@@ -158,5 +160,10 @@
     .item .name {
         height: auto;
         margin-top: 10px;
+    }
+
+    .item img{
+        width: 100%;
+        height: auto;
     }
 }
