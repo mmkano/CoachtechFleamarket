@@ -11,6 +11,10 @@ class UserController extends Controller
 {
     public function myPage()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'このページにアクセスするにはログインが必要です。');
+        }
+
         $user = Auth::user();
         $items = Item::where('user_id', $user->id)->get();
         $soldItems = SoldItem::where('user_id', $user->id)->get();
