@@ -137,6 +137,6 @@ class ItemController extends Controller
         $item->brand_id = $request->brand_id;
         $item->save();
 
-        return redirect()->route('home')->with('status', '商品を出品しました。');
+        return redirect()->route('home');
     }
 }
