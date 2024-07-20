@@ -11,6 +11,8 @@ class SoldItem extends Model
 
     protected $fillable = ['item_id', 'user_id'];
 
+    protected $primaryKey = 'UniqueID';
+
     public function item()
     {
         return $this->belongsTo(Item::class);

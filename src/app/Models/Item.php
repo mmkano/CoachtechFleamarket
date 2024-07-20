@@ -17,7 +17,6 @@ class Item extends Model
         'user_id',
         'category_item_id',
         'condition_id',
-        'payment_method',
         'brand_id',
     ];
 
