@@ -105,8 +105,8 @@
 }
 
 .item img {
-    width: 100%;
-    height: auto;
+    width: 200px;
+    height: 200px;
     display: block;
     object-fit: cover;
 }
@@ -173,5 +173,10 @@
     .item .name {
         height: auto;
         margin-top: 10px;
+    }
+
+    .item img{
+        width: 100%;
+        height: auto;
     }
 }
