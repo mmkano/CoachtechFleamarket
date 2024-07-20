@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategoryItemSeeder::class,
             ConditionSeeder::class,
+            AdminSeeder::class,
+            BrandSeeder::class,
             ItemSeeder::class,
             CommentSeeder::class,
             FavoriteSeeder::class,
-            AdminSeeder::class,
-            BrandSeeder::class,
         ]);
     }
 }
