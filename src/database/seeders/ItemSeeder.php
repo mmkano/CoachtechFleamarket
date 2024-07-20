@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
+use App\Models\Brand;
+use App\Models\User;
 
 class ItemSeeder extends Seeder
 {
@@ -18,6 +20,8 @@ class ItemSeeder extends Seeder
     {
         $categories = CategoryItem::all();
         $conditions = Condition::all();
+        $brands = Brand::all();
+        $user = User::first();
 
         $items = [
             'ファッション' => [
@@ -114,7 +118,7 @@ class ItemSeeder extends Seeder
                 'name' => '洗剤セット',
                 'price' => 10000,
                 'description' => '掃除が楽しくなる洗剤のセットです。',
-                'image_url' => 'detergent.jpg',
+                'image_url' => 'detergents.jpg',
             ],
             '家具・インテリア' => [
                 'name' => 'おしゃれな家具セット',
@@ -162,9 +166,10 @@ class ItemSeeder extends Seeder
                     'price' => $item['price'],
                     'description' => $item['description'],
                     'img_url' => 'images/' . $item['image_url'],
-                    'user_id' => 1,
+                    'user_id' => $user->id,
                     'category_item_id' => $categoryItem->id,
                     'condition_id' => $conditions->random()->id,
+                    'brand_id' => rand(0, 1) ? $brands->random()->id : null,
                 ]);
             }
         }
