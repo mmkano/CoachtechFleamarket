@@ -25,7 +25,7 @@ class ProfileControllerTest extends TestCase
 
     public function test_update_profile()
     {
-        Storage::fake('public');
+        Storage::fake('s3');
 
         $user = User::factory()->create([
             'profile_image' => 'profile_images/old_image.jpg',
@@ -44,18 +44,16 @@ class ProfileControllerTest extends TestCase
         $response->assertRedirect(route('mypage'));
         $response->assertSessionHas('success', 'プロフィールが更新されました。');
 
-        $newImagePath = 'profile_images/' . $newImage->hashName();
-
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'name' => 'Updated Name',
             'postal_code' => '123-4567',
             'address' => 'Updated Address',
             'building_name' => 'Updated Building',
-            'profile_image' => $newImagePath,
+            'profile_image' => Storage::disk('s3')->url('profile_images/' . $newImage->hashName()),
         ]);
 
-        Storage::disk('public')->assertExists($newImagePath);
-        Storage::disk('public')->assertMissing('profile_images/old_image.jpg');
+        Storage::disk('s3')->assertExists('profile_images/' . $newImage->hashName());
+        Storage::disk('s3')->assertMissing('profile_images/old_image.jpg');
     }
 }
