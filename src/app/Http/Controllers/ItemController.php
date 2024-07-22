@@ -126,7 +126,7 @@ class ItemController extends Controller
         $request->merge($input);
 
         $path = $request->file('img_url')->store('images', 's3');
-        Storage::disk('s3')->setVisibility($path, 'public');
+	Storage::disk('s3')->setVisibility($path, 'public');
 
         $item = new Item();
         $item->name = $request->name;
