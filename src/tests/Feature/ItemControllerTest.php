@@ -152,7 +152,7 @@ class ItemControllerTest extends TestCase
 
     public function test_store()
     {
-        Storage::fake('public');
+        Storage::fake('s3');
 
         $user = User::factory()->create();
         $category = CategoryItem::factory()->create();
@@ -171,8 +171,8 @@ class ItemControllerTest extends TestCase
 
         $response = $this->actingAs($user)->post(route('item.store'), $itemData);
 
-        $response->assertStatus(302);  
-        $response->assertRedirect(route('home'));  
+        $response->assertStatus(302);
+        $response->assertRedirect(route('home'));
 
         $this->assertDatabaseHas('items', [
             'name' => 'Test Item',
@@ -181,6 +181,6 @@ class ItemControllerTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        Storage::disk('public')->assertExists('images/' . $itemData['img_url']->hashName());
+        Storage::disk('s3')->assertExists('images/' . $itemData['img_url']->hashName());
     }
 }
