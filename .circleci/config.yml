@@ -30,6 +30,10 @@ jobs:
             ls -la ~/project/docker
             ls -la ~/project/docker/nginx
       - run:
+          name: List config directory in container
+          command: |
+            docker-compose run nginx ls -la /etc/nginx/conf.d
+      - run:
           name: Start services
           command: |
             docker-compose up -d
