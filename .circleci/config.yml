@@ -30,13 +30,11 @@ jobs:
             ls -la /home/circleci/project/docker
             ls -la /home/circleci/project/docker/nginx
       - run:
-          name: List config directory in container
-          command: |
-            docker-compose run nginx ls -la /etc/nginx/conf.d
-      - run:
-          name: Start services
+          name: Debug Nginx container
           command: |
             docker-compose up -d
+            docker-compose logs nginx
+            docker-compose exec nginx ls -la /etc/nginx/conf.d
       - run:
           name: Run tests
           command: |
