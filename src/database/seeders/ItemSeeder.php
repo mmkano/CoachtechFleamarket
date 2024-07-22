@@ -164,7 +164,7 @@ class ItemSeeder extends Seeder
                 $localPath = public_path('images/' . $item['image_url']);
                 $s3Path = 'images/' . $item['image_url'];
                 if (file_exists($localPath) && !Storage::disk('s3')->exists($s3Path)) {
-                    Storage::disk('s3')->put($s3Path, file_get_contents($localPath), 'public');
+                    Storage::disk('s3')->put($s3Path, file_get_contents($localPath));
                 }
 
                 Item::create([
@@ -176,8 +176,6 @@ class ItemSeeder extends Seeder
                     'category_item_id' => $categoryItem->id,
                     'condition_id' => $conditions->random()->id,
                     'brand_id' => rand(0, 1) ? $brands->random()->id : null,
-		]);
-		$itemModel->save();
             }
         }
     }

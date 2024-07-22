@@ -28,7 +28,7 @@
             <div class="profile-image-section">
                 <div class="profile-image">
                     @if(Auth::user()->profile_image)
-                        <img id="profileImagePreview" src="{{ Storage::disk('s3')->url(Auth::user()->profile_image) }}" alt="ユーザー画像">
+                        <img id="profileImagePreview" src="{{ Auth::user()->profile_image }}" alt="ユーザー画像">
                     @else
                         <img id="profileImagePreview" src="{{ asset('images/default.png') }}" alt="ユーザー画像">
                     @endif

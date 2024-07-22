@@ -28,7 +28,7 @@ class ProfileController extends Controller
             if ($user->profile_image && Storage::disk('s3')->exists($user->profile_image)) {
                 Storage::disk('s3')->delete($user->profile_image);
             }
-            $user->profile_image = $path;
+            $user->profile_image = Storage::disk('s3')->url($path);
             Log::info('Profile image updated', ['path' => $path]);
         }
 
