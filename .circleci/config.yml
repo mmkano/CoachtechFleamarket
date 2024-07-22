@@ -24,6 +24,12 @@ jobs:
             ls -la ./docker/nginx/default.conf
             echo "Check completed."
       - run:
+          name: List project directory
+          command: |
+            ls -la ~/project
+            ls -la ~/project/docker
+            ls -la ~/project/docker/nginx
+      - run:
           name: Start services
           command: |
             docker-compose up -d
