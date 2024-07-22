@@ -161,7 +161,7 @@ class ItemSeeder extends Seeder
         foreach ($items as $categoryName => $item) {
             $categoryItem = $categories->where('name', $categoryName)->first();
             if ($categoryItem) {
-                $localPath = base_path('src/public/images/' . $item['image_url']);
+                $localPath = public_path('images/' . $item['image_url']);
                 $s3Path = 'images/' . $item['image_url'];
                 if (file_exists($localPath) && !Storage::disk('s3')->exists($s3Path)) {
                     Storage::disk('s3')->put($s3Path, file_get_contents($localPath), 'public');
@@ -171,12 +171,13 @@ class ItemSeeder extends Seeder
                     'name' => $item['name'],
                     'price' => $item['price'],
                     'description' => $item['description'],
-                    'img_url' => $s3Path,
+                    'img_url' => Storage::disk('s3')->url($s3Path),
                     'user_id' => $user->id,
                     'category_item_id' => $categoryItem->id,
                     'condition_id' => $conditions->random()->id,
                     'brand_id' => rand(0, 1) ? $brands->random()->id : null,
                 ]);
+                $itemModel->save();
             }
         }
     }
