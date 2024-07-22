@@ -28,37 +28,37 @@ class ItemSeeder extends Seeder
                 'name' => 'Tシャツ',
                 'price' => 15000,
                 'description' => '最新のトレンドを取り入れたファッションアイテムです。',
-                'image_url' => 'default_fashion.jpg',
+                'image_url' => 'fashion.jpg',
             ],
             'ベビー・キッズ' => [
                 'name' => '可愛いベビー靴',
                 'price' => 5000,
                 'description' => '柔らかくて肌に優しい素材を使用したベビー靴です。',
-                'image_url' => 'default_baby.jpg',
+                'image_url' => 'baby.jpg',
             ],
             'ゲーム・おもちゃ・グッズ' => [
                 'name' => 'バスとロボット',
                 'price' => 3000,
                 'description' => 'かわいいバスとロボットのおもちゃセットです。',
-                'image_url' => 'default_toy.jpg',
+                'image_url' => 'toy.jpg',
             ],
             'ホビー・楽器・アート' => [
                 'name' => 'ウクレレ',
                 'price' => 10000,
                 'description' => '音色にこだわったプロ仕様の高級ウクレレです。',
-                'image_url' => 'default_guitar.jpg',
+                'image_url' => 'guitar.jpg',
             ],
             'チケット' => [
                 'name' => '旅行チケット',
                 'price' => 8000,
                 'description' => '人気の旅行チケットです。',
-                'image_url' => 'default_ticket.jpg',
+                'image_url' => 'ticket.jpg',
             ],
             '本・雑誌・漫画' => [
                 'name' => '最新ベストセラー本',
                 'price' => 2000,
                 'description' => '話題の最新ベストセラー本です。',
-                'image_url' => 'default_book.jpg',
+                'image_url' => 'book.jpg',
             ],
             'CD・DVD・ブルーレイ' => [
                 'name' => '人気映画のブルーレイ',
@@ -161,7 +161,7 @@ class ItemSeeder extends Seeder
         foreach ($items as $categoryName => $item) {
             $categoryItem = $categories->where('name', $categoryName)->first();
             if ($categoryItem) {
-                $localPath = public_path('images/' . $item['image_url']);
+                $localPath = base_path('src/public/images/' . $item['image_url']);
                 $s3Path = 'images/' . $item['image_url'];
                 if (file_exists($localPath) && !Storage::disk('s3')->exists($s3Path)) {
                     Storage::disk('s3')->put($s3Path, file_get_contents($localPath), 'public');
