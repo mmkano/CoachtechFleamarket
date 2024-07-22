@@ -4,7 +4,7 @@ executors:
   docker-executor:
     docker:
       - image: circleci/php:7.4-cli
-    working_directory: ~/tech/coachtechflemarket
+    working_directory: ~/tech/coachtechfleamarket
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            composer install
+            cd src && composer install
       - run:
           name: Start services
           command: |
