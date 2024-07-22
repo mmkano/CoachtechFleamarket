@@ -23,6 +23,7 @@ class ProfileController extends Controller
 
         if ($request->hasFile('profile_image')) {
             $path = $request->file('profile_image')->store('profile_images', 's3');
+            Storage::disk('s3')->setVisibility($path, 'public');
 
             if ($user->profile_image && Storage::disk('s3')->exists($user->profile_image)) {
                 Storage::disk('s3')->delete($user->profile_image);

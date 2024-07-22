@@ -16,6 +16,7 @@ use App\Http\Requests\ConfirmPurchaseRequest;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Mail\PaymentInformationMail;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -125,6 +126,7 @@ class ItemController extends Controller
         $request->merge($input);
 
         $path = $request->file('img_url')->store('images', 's3');
+        Storage::disk('s3')->setVisibility($path, 'public');
 
         $item = new Item();
         $item->name = $request->name;
