@@ -11,7 +11,7 @@
     <div class="info-container">
         <div class="item-detail">
             <div class="item-image">
-                <img src="{{ Storage::disk('s3')->url($item->img_url) }}" alt="{{ $item->name }}">
+                <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
             </div>
             <div class="item-info">
                 <h1>{{ $item->name }}</h1>

@@ -11,7 +11,7 @@
 <div class="info-container">
     <div class="item-detail">
         <div class="item-image">
-            <img src="{{ Storage::disk('s3')->url($item->img_url) }}" alt="{{ $item->name }}">
+            <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
         </div>
         <div class="item-info">
             <h1>{{ $item->name }}</h1>
@@ -49,7 +49,7 @@
                     <div class="comment-author {{ ($loop->index + 1) % 3 == 0 ? 'reverse' : '' }}">
                         <div class="author-avatar">
                             @if($comment->user->profile_image)
-                            <img src="{{ Storage::disk('s3')->url($comment->user->profile_image) }}" alt="ユーザー画像">
+                            <img src="{{ $comment->user->profile_image }}" alt="ユーザー画像">
                             @else
                             <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
                             @endif
