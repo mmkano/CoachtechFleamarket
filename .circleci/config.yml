@@ -4,7 +4,7 @@ executors:
   docker-executor:
     docker:
       - image: circleci/php:7.4-cli
-    working_directory: ~/tech/coachtechfleamarket
+    working_directory: ~/coachtech/CoachtechFleamarket
 
 jobs:
   test:
@@ -17,6 +17,10 @@ jobs:
           name: Install dependencies
           command: |
             cd src && composer install
+      - run:
+          name: Verify Nginx config path
+          command: |
+            ls -la ~/coachtech/CoachtechFleamarket/docker/nginx/default.conf  # ファイルの存在確認
       - run:
           name: Start services
           command: |

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # プロジェクトディレクトリに移動
-cd ~/tech/coachtechflemarket
+cd ~/tech/CoachtechFleamarket
 
 # 最新のコードを取得
 git pull origin develop
