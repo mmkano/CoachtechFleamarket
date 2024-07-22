@@ -4,7 +4,7 @@ executors:
   docker-executor:
     docker:
       - image: circleci/php:7.4-cli
-    working_directory: /home/circleci/project
+    working_directory: ~/project
 
 jobs:
   test:
@@ -21,14 +21,14 @@ jobs:
           name: Verify Nginx config path
           command: |
             echo "Checking if default.conf exists:"
-            ls -la /home/circleci/project/docker/nginx/default.conf
+            ls -la ./docker/nginx/default.conf
             echo "Check completed."
       - run:
           name: List project directory
           command: |
-            ls -la /home/circleci/project
-            ls -la /home/circleci/project/docker
-            ls -la /home/circleci/project/docker/nginx
+            ls -la ./project
+            ls -la ./project/docker
+            ls -la ./project/docker/nginx
       - run:
           name: Start services
           command: |

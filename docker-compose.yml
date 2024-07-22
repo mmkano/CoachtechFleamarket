@@ -13,12 +13,12 @@ services:
         ports:
             - "80:80"
         volumes:
-            - /home/circleci/project/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - /home/circleci/project/src:/var/www/
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./src:/var/www/
         depends_on:
             - php
 
     php:
-        build: /home/circleci/project/docker/php
+        build: ./docker/php
         volumes:
-            - /home/circleci/project/src:/var/www/
+            - ./src:/var/www/
