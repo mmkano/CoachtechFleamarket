@@ -1,0 +1,52 @@
+version: 2.1
+
+executors:
+  docker-executor:
+    docker:
+      - image: circleci/php:7.4-cli
+    working_directory: ~/tech/coachtechflemarket
+
+jobs:
+  test:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Install dependencies
+          command: |
+            composer install
+      - run:
+          name: Start services
+          command: |
+            docker-compose up -d
+      - run:
+          name: Run tests
+          command: |
+            docker-compose exec php vendor/bin/phpunit
+
+  deploy:
+    executor: docker-executor
+    steps:
+      - checkout
+      - run:
+          name: Install AWS CLI
+          command: |
+            sudo apt-get update && sudo apt-get install awscli -y
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no ec2-user@54.238.166.26 'bash -s' < deploy.sh
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
