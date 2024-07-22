@@ -12,13 +12,13 @@
             <div class="profile__inner">
                 <div class="profile-image">
                     @if(Auth::user()->profile_image)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="ユーザー画像">
+                        <img src="{{ Storage::disk('s3')->url(Auth::user()->profile_image) }}" alt="ユーザー画像">
                     @else
                         <img src="{{ asset('images/default.png') }}" alt="ユーザー画像">
                     @endif
                 </div>
                 <div class="profile-name">
-                    <h2>{{ $user->name ?? $user->email }}</h2>
+                    <h2>{{ Auth::user()->name ?? Auth::user()->email }}</h2>
                 </div>
             </div>
             <button class="edit-profile-button" onclick="location.href='{{ route('profile.edit') }}'">プロフィールを編集</button>
@@ -31,7 +31,7 @@
             @foreach($items as $item)
                 <div class="item">
                     <a href="{{ route('item.show', ['id' => $item->id]) }}">
-                        <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                        <img src="{{ Storage::disk('s3')->url($item->img_url) }}" alt="{{ $item->name }}">
                         <div class="price">¥{{ number_format($item->price) }}</div>
                     </a>
                     <span class="name">{{ $item->name }}</span>
@@ -42,7 +42,7 @@
             @foreach($soldItems as $soldItem)
                 <div class="item">
                     <a href="{{ route('item.show', ['id' => $soldItem->item->id]) }}">
-                        <img src="{{ asset('storage/' . $soldItem->item->img_url) }}" alt="{{ $soldItem->item->name }}">
+                        <img src="{{ Storage::disk('s3')->url($soldItem->item->img_url) }}" alt="{{ $soldItem->item->name }}">
                         <div class="price">¥{{ number_format($soldItem->item->price) }}</div>
                     </a>
                     <span class="name">{{ $soldItem->item->name }}</span>

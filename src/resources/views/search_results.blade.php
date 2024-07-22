@@ -113,7 +113,7 @@
                 @forelse($items as $item)
                     <div class="item">
                         <a href="{{ route('item.show', ['id' => $item->id]) }}">
-                            <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                            <img src="{{ Storage::disk('s3')->url($item->img_url) }}" alt="{{ $item->name }}">
                             <div class="price">¥{{ number_format($item->price) }}</div>
                         </a>
                         <span class="name">{{ $item->name }}</span>
