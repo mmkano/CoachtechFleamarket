@@ -19,6 +19,6 @@ services:
             - php
 
     php:
-        build: ./docker/php
+        build: /home/circleci/project/docker/php
         volumes:
             - /home/circleci/project/src:/var/www/
