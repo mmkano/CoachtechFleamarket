@@ -1,8 +1,8 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
@@ -161,11 +161,17 @@ class ItemSeeder extends Seeder
         foreach ($items as $categoryName => $item) {
             $categoryItem = $categories->where('name', $categoryName)->first();
             if ($categoryItem) {
+                $localPath = public_path('images/' . $item['image_url']);
+                $s3Path = 'images/' . $item['image_url'];
+                if (file_exists($localPath) && !Storage::disk('s3')->exists($s3Path)) {
+                    Storage::disk('s3')->put($s3Path, file_get_contents($localPath), 'public');
+                }
+
                 Item::create([
                     'name' => $item['name'],
                     'price' => $item['price'],
                     'description' => $item['description'],
-                    'img_url' => 'images/' . $item['image_url'],
+                    'img_url' => $s3Path,
                     'user_id' => $user->id,
                     'category_item_id' => $categoryItem->id,
                     'condition_id' => $conditions->random()->id,
