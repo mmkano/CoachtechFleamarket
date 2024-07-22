@@ -124,7 +124,7 @@ class ItemController extends Controller
 
         $request->merge($input);
 
-        $path = $request->file('img_url')->store('images', 'public');
+        $path = $request->file('img_url')->store('images', 's3');
 
         $item = new Item();
         $item->name = $request->name;

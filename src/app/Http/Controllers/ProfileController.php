@@ -22,10 +22,10 @@ class ProfileController extends Controller
         Log::info('Profile update request received', ['user_id' => $user->id, 'request' => $request->all()]);
 
         if ($request->hasFile('profile_image')) {
-            $path = $request->file('profile_image')->store('profile_images', 'public');
+            $path = $request->file('profile_image')->store('profile_images', 's3');
 
-            if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
-                Storage::disk('public')->delete($user->profile_image);
+            if ($user->profile_image && Storage::disk('s3')->exists($user->profile_image)) {
+                Storage::disk('s3')->delete($user->profile_image);
             }
             $user->profile_image = $path;
             Log::info('Profile image updated', ['path' => $path]);
