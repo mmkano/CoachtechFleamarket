@@ -127,12 +127,13 @@ class ItemController extends Controller
 
         $path = $request->file('img_url')->store('images', 's3');
         Storage::disk('s3')->setVisibility($path, 'public');
+        $imageUrl = Storage::disk('s3')->url($path);
 
         $item = new Item();
         $item->name = $request->name;
         $item->price = $input['price'];
         $item->description = $request->description;
-        $item->img_url = $path;
+        $item->img_url = $imageUrl;
         $item->user_id = Auth::id();
         $item->category_item_id = $request->category_item_id;
         $item->condition_id = $request->condition_id;

@@ -11,7 +11,7 @@
         <div class="item-info">
             <div class="item__inner">
                 <div class="item-image">
-                    <img src="{{ Storage::disk('s3')->url($item->img_url) }}" alt="{{ $item->name }}">
+                    <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
                 </div>
                 <div class="item-details">
                     <h1>{{ $item->name }}</h1>
@@ -73,7 +73,6 @@
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
