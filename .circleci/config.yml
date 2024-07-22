@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Verify Nginx config path
           command: |
-            ls -la ~/coachtech/CoachtechFleamarket/docker/nginx/default.conf  # ファイルの存在確認
+            ls -la /home/circleci/coachtech/CoachtechFleamarket/docker/nginx/default.conf  # ファイルの存在確認
       - run:
           name: Start services
           command: |
