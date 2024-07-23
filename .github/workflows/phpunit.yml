@@ -29,18 +29,12 @@ jobs:
         cp .env.example .env
         php artisan key:generate
         echo "DB_CONNECTION=mysql" >> .env
-        echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-        echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-        echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
-        echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-        cat .env
-      working-directory: ./src
-
-    - name: Check MySQL connection
-      run: |
-        sudo apt-get install -y mysql-client
-        mysql -h "${{ secrets.DB_HOST }}" -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" -e "SHOW DATABASES;"
+        echo "DB_HOST=coachtech-dev-rds.cdo6s60ie65j.ap-northeast-1.rds.amazonaws.com" >> .env
+        echo "DB_PORT=3306" >> .env
+        echo "DB_DATABASE=coachtech" >> .env
+        echo "DB_USERNAME=coachtech_admin" >> .env
+        echo "DB_PASSWORD=coachtech_admin" >> .env
+        cat .env  # .env ファイルの内容を確認するためのログ
       working-directory: ./src
 
     - name: Run migrations
