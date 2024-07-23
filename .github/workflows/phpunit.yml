@@ -30,7 +30,7 @@ jobs:
         php artisan key:generate
         echo "DB_CONNECTION=mysql" >> .env
         echo "DB_HOST=127.0.0.1" >> .env
-        echo "DB_PORT=3307" >> .env
+        echo "DB_PORT=3306" >> .env
         echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
         echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
@@ -41,9 +41,11 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y mysql-client
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} -L 3307:${{ secrets.DB_HOST }}:3306 ec2-user@${{ secrets.EC2_HOST }} -N &
+        echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+        ssh -o StrictHostKeyChecking=no -i private_key.pem -L 3306:${{ secrets.DB_HOST }}:3306 ec2-user@${{ secrets.EC2_HOST }} -N &
         sleep 15  # Ensure the tunnel is established
-        mysql -h 127.0.0.1 -P 3307 -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" -e "SHOW DATABASES;"
+        mysql -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" -e "SHOW DATABASES;"
       working-directory: ./src
 
     - name: Run migrations
@@ -59,4 +61,4 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_HOST }} 'bash -s' < deploy.sh
+        ssh -o StrictHostKeyChecking=no -i private_key.pem ec2-user@${{ secrets.EC2_HOST }} 'bash -s' < deploy.sh
