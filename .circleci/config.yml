@@ -22,10 +22,17 @@ jobs:
           command: |
             echo "Running pre-test debug"
             docker-compose logs php
+            docker-compose exec php ls -la /var/www
+            docker-compose exec php ls -la /var/www/vendor
+            docker-compose exec php ls -la /var/www/tests/Feature
       - run:
-          name: Run tests
+          name: Run unit tests
           command: |
-            docker-compose exec php php artisan test || (docker-compose logs php && false)
+            docker-compose exec php php artisan test --filter=unit || (docker-compose logs php && false)
+      - run:
+          name: Run feature tests
+          command: |
+            docker-compose exec php php artisan test --filter=feature || (docker-compose logs php && false)
       - run:
           name: Post-test Debug
           command: |
