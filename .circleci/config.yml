@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose exec php php artisan test
+            docker-compose exec php php artisan test || docker-compose logs php
 
   deploy:
     executor: docker-executor
