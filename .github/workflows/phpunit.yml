@@ -20,9 +20,6 @@ jobs:
         php-version: '7.4'
         extensions: mbstring, intl, dom, pdo_mysql
 
-    - name: Move to src directory
-      run: cd src
-
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
       working-directory: ./src
@@ -37,6 +34,13 @@ jobs:
         echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
         echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+        cat .env
+      working-directory: ./src
+
+    - name: Check MySQL connection
+      run: |
+        sudo apt-get install -y mysql-client
+        mysql -h "${{ secrets.DB_HOST }}" -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" -e "SHOW DATABASES;"
       working-directory: ./src
 
     - name: Run migrations
