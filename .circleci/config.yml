@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            vendor/bin/phpunit
+            docker-compose exec php php artisan test
 
   deploy:
     executor: docker-executor
