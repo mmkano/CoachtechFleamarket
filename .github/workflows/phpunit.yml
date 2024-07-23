@@ -20,8 +20,12 @@ jobs:
         php-version: '7.4'
         extensions: mbstring, intl, dom, pdo_mysql
 
+    - name: Move to src directory
+      run: cd src
+
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
+      working-directory: ./src
 
     - name: Create .env file
       run: |
@@ -33,9 +37,12 @@ jobs:
         sed -i 's/DB_DATABASE=homestead/DB_DATABASE=coachtech/' .env
         sed -i 's/DB_USERNAME=homestead/DB_USERNAME=coachtech_admin/' .env
         sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=coachtech_admin/' .env
+      working-directory: ./src
 
     - name: Run migrations
       run: php artisan migrate --seed
+      working-directory: ./src
 
     - name: Run PHPUnit tests
       run: php artisan test
+      working-directory: ./src
