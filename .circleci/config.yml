@@ -11,6 +11,8 @@ jobs:
     executor: docker-executor
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           name: Install dependencies
           command: |
@@ -18,7 +20,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose exec php vendor/bin/phpunit
+            vendor/bin/phpunit
 
   deploy:
     executor: docker-executor
