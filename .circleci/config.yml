@@ -18,9 +18,19 @@ jobs:
           command: |
             cd src && composer install
       - run:
+          name: Pre-test Debug
+          command: |
+            echo "Running pre-test debug"
+            docker-compose logs php
+      - run:
           name: Run tests
           command: |
-            docker-compose exec php php artisan test || docker-compose logs php
+            docker-compose exec php php artisan test || (docker-compose logs php && false)
+      - run:
+          name: Post-test Debug
+          command: |
+            echo "Running post-test debug"
+            docker-compose logs php
 
   deploy:
     executor: docker-executor
