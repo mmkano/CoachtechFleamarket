@@ -21,6 +21,7 @@ jobs:
           name: Pre-test Debug
           command: |
             echo "Running pre-test debug"
+            docker-compose ps
             docker-compose logs php
             docker-compose exec php ls -la /var/www
             docker-compose exec php ls -la /var/www/vendor
