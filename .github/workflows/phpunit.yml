@@ -1,0 +1,41 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: mbstring, intl, dom, pdo_mysql
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Create .env file
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+        sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=mysql/' .env
+        sed -i 's/DB_HOST=127.0.0.1/DB_HOST=coachtech-dev-rds.cdo6s60ie65j.ap-northeast-1.rds.amazonaws.com/' .env
+        sed -i 's/DB_PORT=3306/DB_PORT=3306/' .env
+        sed -i 's/DB_DATABASE=homestead/DB_DATABASE=coachtech/' .env
+        sed -i 's/DB_USERNAME=homestead/DB_USERNAME=coachtech_admin/' .env
+        sed -i 's/DB_PASSWORD=secret/DB_PASSWORD=coachtech_admin/' .env
+
+    - name: Run migrations
+      run: php artisan migrate --seed
+
+    - name: Run PHPUnit tests
+      run: php artisan test
