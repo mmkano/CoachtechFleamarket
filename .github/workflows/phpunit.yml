@@ -1,4 +1,4 @@
-name: PHPUnit Tests
+name: PHPUnit Tests and Deploy
 
 on:
   push:
@@ -29,18 +29,21 @@ jobs:
         cp .env.example .env
         php artisan key:generate
         echo "DB_CONNECTION=mysql" >> .env
-        echo "DB_HOST=coachtech-dev-rds.cdo6s60ie65j.ap-northeast-1.rds.amazonaws.com" >> .env
-        echo "DB_PORT=3306" >> .env
-        echo "DB_DATABASE=coachtech" >> .env
-        echo "DB_USERNAME=coachtech_admin" >> .env
-        echo "DB_PASSWORD=coachtech_admin" >> .env
+        echo "DB_HOST=127.0.0.1" >> .env
+        echo "DB_PORT=3307" >> .env
+        echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+        echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
         cat .env  # .env ファイルの内容を確認するためのログ
       working-directory: ./src
 
-    - name: Check MySQL connection
+    - name: Create SSH Tunnel and Run MySQL commands
       run: |
+        sudo apt-get update
         sudo apt-get install -y mysql-client
-        mysql -h "coachtech-dev-rds.cdo6s60ie65j.ap-northeast-1.rds.amazonaws.com" -P "3306" -u "coachtech_admin" -p"coachtech_admin" -e "SHOW DATABASES;"
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} -L 3307:${{ secrets.DB_HOST }}:3306 ec2-user@${{ secrets.EC2_HOST }} -N &
+        sleep 15  # Ensure the tunnel is established
+        mysql -h 127.0.0.1 -P 3307 -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" -e "SHOW DATABASES;"
       working-directory: ./src
 
     - name: Run migrations
@@ -51,3 +54,9 @@ jobs:
       run: php artisan test
       working-directory: ./src
 
+    - name: Deploy to EC2
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_HOST }} 'bash -s' < deploy.sh
