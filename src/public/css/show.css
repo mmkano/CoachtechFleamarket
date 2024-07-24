@@ -1,0 +1,143 @@
+.info-container {
+    max-width: 1230px;
+    margin: 100px auto;
+}
+
+.item-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10%;
+    padding: 20px;
+    justify-content: center;
+}
+
+.item-image {
+    display: flex;
+}
+
+.item-image img {
+    width: 400px;
+    height: 400px;
+}
+
+.item-info {
+    text-align: left;
+}
+
+.item-info h1 {
+    margin: 0;
+}
+
+.item-info .price {
+    margin: 15px 0;
+    font-size: 25px;
+    margin-top: 30px;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.icon i {
+    font-size: 24px;
+    margin-right: 15px;
+    padding: 2px;
+}
+
+.far {
+    color: #5f5f5f;
+}
+
+.fas {
+    color: #ffd43b;
+}
+
+.icon span {
+    margin-right: 15px;
+    font-size: 15px;
+}
+
+.buy-button {
+    background-color: #ff5655;
+    color: #fff;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+#selected-category,
+#selected-condition {
+    margin-left: 30px;
+    font-weight: normal;
+}
+
+#selected-category {
+    background: #d9d9d9;
+    padding: 5px 30px 5px 25px;
+    border-radius: 100px;
+}
+
+.star-form {
+    display: grid;
+}
+
+.favorite-button {
+    background: none;
+    border: none;
+}
+
+.star-form .icon-count {
+    text-align: center;
+}
+
+.item-info-title {
+    margin-top: 70px;
+}
+
+.item-category {
+    font-weight: bold;
+    margin: 40px 0;
+}
+
+.item-condition {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .item-detail {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .item-info {
+        margin-top: 50px;
+        width: 400px;
+    }
+
+    .buy-button {
+        width: 100%;
+    }
+
+    #selected-category {
+        padding: 5px 15px;
+    }
+
+    .item-image img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+    }
+}

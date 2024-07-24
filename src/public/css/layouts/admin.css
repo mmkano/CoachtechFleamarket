@@ -1,0 +1,42 @@
+.header {
+    padding: 5px;
+    background: #b197fc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: auto;
+    max-width: 200px;
+    height: auto;
+    margin-left: 15px;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .logo {
+        max-width: 150px;
+    }
+
+    .logout-button {
+        font-size: 18px;
+        padding: 8px 16px;
+    }
+}

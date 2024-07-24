@@ -1,0 +1,169 @@
+.header {
+    width: 100%;
+    height: 60px;
+    background: #000;
+}
+
+.create-item-container {
+    max-width: 1230px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 40%;
+    margin-bottom: 100px;
+}
+
+.create-item-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    position: relative;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #5f5f5f;
+    border-radius: 5px;
+}
+
+#category_item_id {
+    width: 100%;
+    border: 1px solid #5f5f5f;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#condition_id {
+    width: 100%;
+    border: 1px solid #5f5f5f;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#brand_id {
+    width: 100%;
+    border: 1px solid #5f5f5f;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.file-input-container {
+    border: 1px dashed #5f5f5f;
+    border-radius: 5px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-input-label {
+    display: inline-block;
+    color: #f75655;
+    padding: 10px 20px;
+    border: 3px solid #f75655;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: auto;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.ttl {
+    border-bottom: 1px solid #5f5f5f;
+    color: #5f5f5f;
+    margin: 60px 0 30px;
+}
+
+.ttl h2 {
+    margin: 0;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #f75655;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 70px;
+}
+
+.description-textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.description-textarea::placeholder {
+    color: #888;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-line;
+}
+
+.preview-image {
+    max-width: 100px;
+    max-height: 100px;
+    display: block;
+    margin: 10px 0;
+}
+
+.optional {
+    position: absolute;
+    top: 3px;
+    background-color:  #cccccc;
+    color: #333;
+    font-size: 10px;
+    margin-left: 5px;
+    padding: 2px 4px;
+}
+
+.alert li{
+    list-style: none;
+    padding: 0;
+    color: red;
+    font-weight: bold;
+}
+
+.alert ul{
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .create-item-container {
+        width: 90%;
+    }
+
+    .file-input-label {
+        width: auto;
+    }
+}
