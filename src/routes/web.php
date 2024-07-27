@@ -49,7 +49,6 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('/complete', 'complete')->name('item.complete');
 });
 
-
 Route::prefix('item')->controller(CommentController::class)->group(function () {
     Route::get('/{id}/comments', 'showComments')->name('comments.show');
     Route::post('/{id}/comments', 'submitComment')->name('comments.submit');
