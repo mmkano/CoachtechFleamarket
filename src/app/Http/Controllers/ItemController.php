@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\Item;
 use App\Models\CategoryItem;
 use App\Models\Condition;
@@ -123,8 +124,8 @@ class ItemController extends Controller
         $request->merge($input);
 
         $path = $request->file('img_url')->store('images', 's3');
-	    Storage::disk('s3')->setVisibility($path, 'public');
-	    $imageUrl = Storage::disk('s3')->url($path);
+        Storage::disk('s3')->setVisibility($path, 'public');
+        $imageUrl = Storage::disk('s3')->url($path);
 
         $item = new Item();
         $item->name = $request->name;
