@@ -9,14 +9,14 @@ coachtechフリマを作成した目的は、coachtechブランドのアイテ�
 ## アプリケーションURL    
 
 ### AWS（開発環境）  
-* http:///login (ユーザーURL)
-* http:///admin/login (管理者URL)
-* mailhog:http://:8025/  
+* http://54.238.177.166/login (ユーザーURL)
+* http://54.238.177.166/admin/login (管理者URL)
+* mailhog:http://54.238.177.166:8025/  
 
 ### AWS(本番環境）  
-* http:///login (ユーザーURL)
-* http:///admin/login (管理者URL)
-* mailhog：http://:8026/
+* http://52.68.190.137/login (ユーザーURL)
+* http://52.68.190.137/admin/login (管理者URL)
+* mailhog：http://52.68.190.137:8026/
 
 #### ユーザー用URLの使用方法
 * ユーザーは会員登録後、ログインします。初回ログイン時にはプロフィール編集ページに遷移し、ユーザー名を登録できます。<br>2回目以降は通常通りトップページに遷移します。ユーザー名を登録しない場合、登録時のメールアドレスがユーザー名として表示されます。<br>ログイン後、商品一覧や詳細ページで商品の説明、カテゴリー、状態を確認でき、コメントアイコンをクリックすることでコメントの閲覧や投稿が可能です。購入ページではクレジットカード、銀行振り込み、コンビニ払いの選択肢があり、住所未登録の場合はプロフィール画面で住所を登録した後に再度購入手続きを行います。トップページの検索バーを利用して商品検索も行え、商品の出品も可能です。
@@ -62,9 +62,13 @@ coachtechフリマを作成した目的は、coachtechブランドのアイテ�
 
 
 ## テーブル設計  
+![スクリーンショット 2024-07-27 19 59 06](https://github.com/user-attachments/assets/8bbdea64-2b6a-4873-94f4-cee86f99937e)
+![スクリーンショット 2024-07-27 19 59 24](https://github.com/user-attachments/assets/503d7720-efb0-4c16-867f-d56ee891cd65)
+![スクリーンショット 2024-07-27 19 59 35](https://github.com/user-attachments/assets/416a07fb-6b73-4b81-af9a-f076abafc00b)
 
 
 ## ER図  
+![er1 drawio](https://github.com/user-attachments/assets/89393454-ed22-42c3-acce-86c0fe3b6acf)
 
 
 ## 環境構築  
@@ -96,13 +100,19 @@ php artisan migrate
 php artisan db:seed 
 ```     
 
+## PHPUnitテスト実行コマンド
+* すべてのテストを実行するには、以下のコマンドを使用します。<br>
+``` bash
+./vendor/bin/phpunit
+```
+* 特定のテストファイルを実行するには、ファイル名を指定します。<br>
+``` bash
+./vendor/bin/phpunit tests/Feature/ItemControllerTest.php
+```
 
-## 補足事項
-* QRコードの読み取り機能を使用する際は、スマートフォンでQRコードを表示し、<br>パソコンなど他のデバイスで読み込むとスムーズに進めることができます。
 
 #### テストユーザー
 * email:admin@example.com  password:password (管理者ログイン用)
-* email:sennin@example.com password:password (店舗代表者ログイン用）
-* email:yamada@example.com password:password (ユーザーログイン用)
+* email:test@example.com password:password (ユーザーログイン用)
 
 
