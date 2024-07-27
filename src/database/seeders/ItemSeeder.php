@@ -175,8 +175,8 @@ class ItemSeeder extends Seeder
                     'user_id' => $user->id,
                     'category_item_id' => $categoryItem->id,
                     'condition_id' => $conditions->random()->id,
-		    'brand_id' => rand(0, 1) ? $brands->random()->id : null,
-	        ]);
+		            'brand_id' => rand(0, 1) ? $brands->random()->id : null,
+	            ]);
             }
         }
     }
