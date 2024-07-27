@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device=width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'COACHTECH')</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/layouts/common.css') }}">
@@ -15,6 +15,7 @@
                 <img src="{{ asset('images/logo.svg') }}" alt="COACHTECHロゴ" class="logo">
             </a>
             <form action="{{ route('items.search') }}" method="GET" class="search-form">
+                <input type="hidden" name="category" value="{{ request('category') }}">
                 <input type="text" name="search" placeholder="なにをお探しですか？" class="search-bar {{ Auth::check() ? 'logged-in' : 'logged-out' }}" value="{{ request('search') }}">
                 <div class="search-dropdown">
                     <div class="search-category">

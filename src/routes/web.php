@@ -11,7 +11,6 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SearchController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
