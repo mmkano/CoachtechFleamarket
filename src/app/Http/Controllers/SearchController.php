@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Item;
+use App\Models\Brand;
 use App\Models\CategoryItem;
 use App\Models\Condition;
-use App\Models\Brand;
+use App\Models\Item;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {

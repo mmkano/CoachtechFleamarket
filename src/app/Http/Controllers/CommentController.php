@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SubmitCommentRequest;
 use App\Models\Comment;
 use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {

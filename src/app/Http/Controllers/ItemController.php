@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
-use App\Models\Item;
+use App\Http\Requests\ConfirmPurchaseRequest;
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateAddressRequest;
+use App\Mail\PaymentInformationMail;
+use App\Models\Brand;
 use App\Models\CategoryItem;
 use App\Models\Condition;
+use App\Models\Item;
 use App\Models\SoldItem;
-use App\Models\Brand;
 use App\Models\UserItemPaymentMethod;
-use App\Http\Requests\ConfirmPurchaseRequest;
-use App\Http\Requests\UpdateAddressRequest;
-use App\Http\Requests\StoreItemRequest;
-use App\Mail\PaymentInformationMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller

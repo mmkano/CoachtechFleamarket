@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Mail;
-use App\Models\User;
-use App\Models\Comment;
 use App\Http\Requests\SendEmailRequest;
 use App\Mail\AdminNotificationMail;
+use App\Models\Comment;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {

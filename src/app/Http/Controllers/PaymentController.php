@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\UserItemPaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use App\Models\Item;
-use App\Models\UserItemPaymentMethod;
-use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
