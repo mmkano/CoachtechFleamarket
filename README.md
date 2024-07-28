@@ -62,13 +62,13 @@ coachtechフリマを作成した目的は、coachtechブランドのアイテ�
 
 
 ## テーブル設計  
-![スクリーンショット 2024-07-27 19 59 06](https://github.com/user-attachments/assets/8bbdea64-2b6a-4873-94f4-cee86f99937e)
-![スクリーンショット 2024-07-27 19 59 24](https://github.com/user-attachments/assets/503d7720-efb0-4c16-867f-d56ee891cd65)
-![スクリーンショット 2024-07-27 19 59 35](https://github.com/user-attachments/assets/416a07fb-6b73-4b81-af9a-f076abafc00b)
+![スクリーンショット 2024-07-28 12 50 21](https://github.com/user-attachments/assets/1c4ba400-f630-4b08-800c-2b98b1bde866)
+![スクリーンショット 2024-07-28 12 50 34](https://github.com/user-attachments/assets/eadc9e9c-a098-4964-a868-dfd8d66a76a0)
+![スクリーンショット 2024-07-28 12 50 46](https://github.com/user-attachments/assets/fb3813c5-a39e-47d2-869c-2571718e98fe)
 
 
 ## ER図  
-![er1 drawio](https://github.com/user-attachments/assets/89393454-ed22-42c3-acce-86c0fe3b6acf)
+![er1 drawio](https://github.com/user-attachments/assets/d4af6ab2-9e8d-4196-991b-6dcaca23b030)
 
 
 ## 環境構築  
@@ -111,7 +111,7 @@ php artisan db:seed
 ```
 
 
-#### テストユーザー
+## テストユーザー
 * email:admin@example.com  password:password (管理者ログイン用)
 * email:test@example.com password:password (ユーザーログイン用)
 
