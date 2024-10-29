@@ -9,7 +9,7 @@ coachtechフリマを作成した目的は、coachtechブランドのアイテ�
 ## アプリケーションURL    
 
 ### AWS 
-* http://13.115.80.146/ (ユーザーURL)
+* http://13.115.80.146/login (ユーザーURL)
 * http://13.115.80.146/admin/login (管理者URL)
 * mailhog:http://13.115.80.146:8025/  
 
